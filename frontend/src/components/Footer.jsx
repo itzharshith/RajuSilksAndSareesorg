@@ -86,29 +86,34 @@ const Footer = () => {
           </h4>
           <ul className="space-y-2 text-xs text-brand-cream/75">
             <li>
-              <Link to="/shop" className="hover:text-brand-creamText hover:underline transition-all">
-                Browse Catalog
+              <Link to="/about" className="hover:text-brand-creamText hover:underline transition-all">
+                About Us
               </Link>
             </li>
             <li>
-              <Link to="/profile" className="hover:text-brand-creamText hover:underline transition-all">
-                Manage Profile
+              <Link to="/contact" className="hover:text-brand-creamText hover:underline transition-all">
+                Contact Us
               </Link>
             </li>
             <li>
-              <Link to="/order-history" className="hover:text-brand-creamText hover:underline transition-all">
-                Track Orders
+              <Link to="/terms" className="hover:text-brand-creamText hover:underline transition-all">
+                Terms & Conditions
               </Link>
             </li>
             <li>
-              <span className="text-brand-cream/50 cursor-not-allowed">
-                Shipping Policy (Mock)
-              </span>
+              <Link to="/privacy" className="hover:text-brand-creamText hover:underline transition-all">
+                Privacy Policy
+              </Link>
             </li>
             <li>
-              <span className="text-brand-cream/50 cursor-not-allowed">
-                Weaving Customizations
-              </span>
+              <Link to="/refund-policy" className="hover:text-brand-creamText hover:underline transition-all">
+                Refund & Cancellation Policy
+              </Link>
+            </li>
+            <li>
+              <Link to="/shipping-policy" className="hover:text-brand-creamText hover:underline transition-all">
+                Shipping & Delivery Policy
+              </Link>
             </li>
           </ul>
         </div>
