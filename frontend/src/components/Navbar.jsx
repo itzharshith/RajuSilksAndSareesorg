@@ -171,12 +171,20 @@ const Navbar = () => {
                   )}
                 </>
               ) : (
-                <Link
-                  to="/login"
-                  className="bg-brand-creamText hover:bg-brand-creamText-glow text-brand-blue-deep text-xs font-semibold px-4 py-2 rounded-full tracking-wider transition-all duration-200"
-                >
-                  SIGN IN
-                </Link>
+                <>
+                  <Link
+                    to="/login"
+                    className="hidden sm:inline-block bg-brand-creamText hover:bg-brand-creamText-glow text-brand-blue-deep text-xs font-semibold px-4 py-2 rounded-full tracking-wider transition-all duration-200 whitespace-nowrap"
+                  >
+                    SIGN IN
+                  </Link>
+                  <Link
+                    to="/login"
+                    className="sm:hidden text-brand-creamText hover:text-white transition-colors"
+                  >
+                    <User size={20} />
+                  </Link>
+                </>
               )}
             </div>
 
@@ -210,13 +218,34 @@ const Navbar = () => {
           </form>
 
           {/* Mobile Nav links */}
-          <div className="flex flex-col space-y-3 font-sans tracking-wide text-sm pl-2">
+          <div className="flex flex-col space-y-3 font-sans tracking-wide text-sm pl-2 border-b border-brand-creamText/10 pb-4">
             <Link to="/" onClick={() => setMobileMenuOpen(false)} className="hover:text-brand-creamText transition-colors">HOME</Link>
             <Link to="/shop" onClick={() => setMobileMenuOpen(false)} className="hover:text-brand-creamText transition-colors">SHOP ALL SAREES</Link>
             <Link to="/shop?category=Kanjeevaram%20Silks" onClick={() => setMobileMenuOpen(false)} className="hover:text-brand-creamText transition-colors">KANJEEVARAM SILKS</Link>
             <Link to="/shop?featured=true" onClick={() => setMobileMenuOpen(false)} className="hover:text-brand-creamText transition-colors">BEST SELLERS</Link>
             {user && user.role === 'admin' && (
               <Link to="/admin" onClick={() => setMobileMenuOpen(false)} className="text-brand-creamText font-semibold hover:text-white">ADMIN DASHBOARD</Link>
+            )}
+          </div>
+
+          {/* Mobile User profile & logout actions */}
+          <div className="flex flex-col space-y-3 font-sans tracking-wide text-sm pl-2 pt-2">
+            {user ? (
+              <>
+                <Link to="/profile" onClick={() => setMobileMenuOpen(false)} className="hover:text-brand-creamText transition-colors">MY PROFILE</Link>
+                <Link to="/order-history" onClick={() => setMobileMenuOpen(false)} className="hover:text-brand-creamText transition-colors">ORDER HISTORY</Link>
+                <button
+                  onClick={() => {
+                    handleLogout();
+                    setMobileMenuOpen(false);
+                  }}
+                  className="text-left text-red-400 hover:text-red-300 transition-colors"
+                >
+                  SIGN OUT
+                </button>
+              </>
+            ) : (
+              <Link to="/login" onClick={() => setMobileMenuOpen(false)} className="text-brand-creamText font-semibold hover:text-white transition-colors">SIGN IN</Link>
             )}
           </div>
         </div>
