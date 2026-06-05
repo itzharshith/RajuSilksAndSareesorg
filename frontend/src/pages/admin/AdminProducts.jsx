@@ -230,7 +230,7 @@ const AdminProducts = () => {
               </div>
 
               {/* Pricing, stock levels, discount */}
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div>
                   <label className="text-[10px] text-gray-500 font-bold uppercase block mb-1">Price (₹) *</label>
                   <input
@@ -362,7 +362,8 @@ const AdminProducts = () => {
         </div>
       ) : (
         <div className="bg-white rounded-xl border border-brand-creamText/15 shadow-luxury overflow-hidden">
-          <div className="overflow-x-auto">
+          {/* Desktop Table View */}
+          <div className="hidden md:block overflow-x-auto">
             <table className="w-full text-left text-xs font-sans">
               <thead className="bg-brand-cream/50 text-gray-500 uppercase font-bold border-b border-brand-creamText/10">
                 <tr>
@@ -425,6 +426,73 @@ const AdminProducts = () => {
                 ))}
               </tbody>
             </table>
+          </div>
+
+          {/* Mobile Card View */}
+          <div className="md:hidden divide-y divide-gray-100">
+            {products.map((prod) => (
+              <div key={prod._id} className="p-4 space-y-3 hover:bg-brand-cream/5">
+                <div className="flex items-start space-x-3">
+                  <img 
+                    src={prod.images[0] || '/images/placeholder-product.jpg'} 
+                    alt="" 
+                    className="h-16 w-14 object-cover rounded border border-brand-creamText/10 shrink-0" 
+                  />
+                  <div className="min-w-0 flex-1">
+                    <span className="text-[9px] text-brand-creamText font-bold uppercase tracking-wider block">
+                      {prod.category?.name || 'Unassigned'}
+                    </span>
+                    <span className="font-serif font-bold text-brand-blue-deep block text-sm truncate">
+                      {prod.name}
+                    </span>
+                    <div className="flex items-baseline space-x-2 mt-1">
+                      <span className="text-xs font-semibold text-gray-800 font-sans">
+                        ₹{prod.price.toLocaleString('en-IN')}
+                      </span>
+                      {prod.discount > 0 && (
+                        <span className="text-[9px] text-green-700 font-bold bg-green-50 px-1.5 py-0.5 rounded ml-1">
+                          {prod.discount}% Off
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between pt-2 border-t border-gray-100 text-[11px]">
+                  <div className="flex items-center space-x-2">
+                    <span className={`px-2 py-0.5 border rounded text-[9px] font-bold ${
+                      prod.stock > 3 ? 'text-green-700 bg-green-50 border-green-200' : 'text-red-700 bg-red-50 border-red-200'
+                    }`}>
+                      {prod.stock} left
+                    </span>
+                    {prod.featured ? (
+                      <span className="text-brand-creamText flex items-center gap-0.5 text-[9px] font-bold uppercase">
+                        <Star size={10} fill="#D4AF37" className="text-[#D4AF37]" /> Featured
+                      </span>
+                    ) : null}
+                  </div>
+
+                  <div className="flex items-center space-x-2">
+                    <button
+                      onClick={() => openEditModal(prod)}
+                      className="text-gray-500 hover:text-brand-blue-deep flex items-center gap-1 border border-brand-creamText/25 px-2.5 py-1 rounded bg-brand-cream/10"
+                      title="Edit Product"
+                    >
+                      <Edit size={12} />
+                      <span>Edit</span>
+                    </button>
+                    <button
+                      onClick={() => handleDeleteProduct(prod._id)}
+                      className="text-red-600 hover:text-red-800 flex items-center gap-1 border border-red-200 px-2.5 py-1 rounded bg-red-50"
+                      title="Delete Product"
+                    >
+                      <Trash2 size={12} />
+                      <span>Delete</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
 
           {/* Simple Pagination */}

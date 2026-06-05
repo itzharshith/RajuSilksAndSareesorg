@@ -275,7 +275,7 @@ const Checkout = () => {
                     />
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <label className="text-[10px] text-gray-500 font-bold uppercase block mb-1">City</label>
                       <input
@@ -298,7 +298,7 @@ const Checkout = () => {
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <label className="text-[10px] text-gray-500 font-bold uppercase block mb-1">Postal Code (PIN)</label>
                       <input

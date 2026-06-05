@@ -89,7 +89,7 @@ const AdminOrders = () => {
             <form onSubmit={handleUpdateStatusSubmit} className="p-6 space-y-5 max-h-[75vh] overflow-y-auto pr-2 custom-scrollbar">
               
               {/* Status Update Fields */}
-              <div className="grid grid-cols-2 gap-4 bg-brand-cream/20 p-4 border border-brand-creamText/15 rounded-lg">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-brand-cream/20 p-4 border border-brand-creamText/15 rounded-lg">
                 <div>
                   <label className="text-[10px] text-gray-500 font-bold uppercase block mb-1">Order Status</label>
                   <select
@@ -119,7 +119,7 @@ const AdminOrders = () => {
               </div>
 
               {/* Customer details */}
-              <div className="grid grid-cols-2 gap-4 text-xs">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
                 <div>
                   <span className="text-[10px] text-gray-400 font-bold uppercase block mb-0.5">Patron details</span>
                   <p className="font-semibold text-brand-blue-deep">{selectedOrder.user?.name}</p>
@@ -187,7 +187,8 @@ const AdminOrders = () => {
         </div>
       ) : (
         <div className="bg-white rounded-xl border border-brand-creamText/15 shadow-luxury overflow-hidden">
-          <div className="overflow-x-auto">
+          {/* Desktop Table View */}
+          <div className="hidden md:block overflow-x-auto">
             <table className="w-full text-left text-xs font-sans">
               <thead className="bg-brand-cream/50 text-gray-500 uppercase font-bold border-b border-brand-creamText/10">
                 <tr>
@@ -237,6 +238,48 @@ const AdminOrders = () => {
                 ))}
               </tbody>
             </table>
+          </div>
+
+          {/* Mobile Card View */}
+          <div className="md:hidden divide-y divide-gray-100">
+            {orders.map((ord) => (
+              <div key={ord._id} className="p-4 space-y-3 hover:bg-brand-cream/5 text-xs">
+                <div className="flex justify-between items-start">
+                  <div>
+                    <span className="text-[10px] text-gray-400 font-mono block">ORDER ID: {ord._id}</span>
+                    <span className="block font-semibold text-gray-800 truncate mt-0.5">{ord.user?.name || 'Guest'}</span>
+                    <span className="text-[10px] text-gray-400 block truncate font-sans">{ord.user?.email}</span>
+                  </div>
+                  <div className="flex flex-col items-end gap-1">
+                    <span className={`inline-block px-2 py-0.5 border rounded text-[9px] font-bold uppercase tracking-wider ${
+                      ord.paymentStatus === 'Paid' ? 'text-green-700 bg-green-50 border-green-200' : 'text-yellow-700 bg-yellow-50 border-yellow-200'
+                    }`}>
+                      Payment: {ord.paymentStatus}
+                    </span>
+                    <span className={`inline-block px-2 py-0.5 border rounded text-[9px] font-bold uppercase tracking-wider ${getStatusColor(ord.orderStatus)}`}>
+                      {ord.orderStatus}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between pt-2 border-t border-gray-100">
+                  <div className="space-y-0.5 text-gray-500 font-sans text-[11px]">
+                    <p>Date: <span className="font-medium text-gray-700">{new Date(ord.createdAt).toLocaleDateString()}</span></p>
+                    <p>Net Total: <span className="font-semibold text-gray-800">₹{ord.totalAmount.toLocaleString('en-IN')}</span></p>
+                  </div>
+
+                  <div>
+                    <button
+                      onClick={() => openDetailsModal(ord)}
+                      className="bg-brand-cream hover:bg-brand-creamText/15 text-brand-blue-deep text-[11px] font-bold py-1.5 px-3 rounded-lg border border-brand-creamText/20 flex items-center gap-1 inline-flex transition-colors"
+                    >
+                      <Edit size={12} />
+                      <span>Manage</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       )}

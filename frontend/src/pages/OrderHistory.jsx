@@ -80,7 +80,7 @@ const OrderHistory = () => {
               {/* Visual Tracker */}
               {selectedOrder.orderStatus !== 'Cancelled' ? (
                 <div>
-                  <div className="flex justify-between text-[10px] text-gray-500 font-bold uppercase tracking-wider mb-2">
+                  <div className="flex justify-between text-[9px] sm:text-[10px] text-gray-500 font-bold uppercase tracking-wider mb-2 gap-1">
                     <span>Order Placed</span>
                     <span>Processing</span>
                     <span>Shipped</span>

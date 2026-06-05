@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import api from '../services/api';
 import ProductCard from '../components/ProductCard';
-import { SlidersHorizontal, RotateCcw, ChevronLeft, ChevronRight } from 'lucide-react';
+import { SlidersHorizontal, RotateCcw, ChevronLeft, ChevronRight, X } from 'lucide-react';
 
 const Shop = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -16,6 +16,7 @@ const Shop = () => {
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
   // Filter States
   const [selectedCategory, setSelectedCategory] = useState(urlCategory);
@@ -109,6 +110,7 @@ const Shop = () => {
     setSortOption('newest');
     setCurrentPage(1);
     setSearchParams({});
+    setMobileFiltersOpen(false);
   };
 
   const handlePageChange = (page) => {
@@ -132,10 +134,33 @@ const Shop = () => {
         </div>
 
         {/* Layout container */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 relative">
           
-          {/* Left Column: Filters Panel */}
-          <div className="bg-white rounded-xl border border-brand-creamText/15 p-6 shadow-luxury h-fit space-y-6">
+          {/* Mobile Filter Drawer Overlay */}
+          {mobileFiltersOpen && (
+            <div 
+              className="fixed inset-0 z-40 bg-black bg-opacity-40 lg:hidden"
+              onClick={() => setMobileFiltersOpen(false)}
+            />
+          )}
+
+          {/* Left Column: Filters Panel (Drawer on mobile, Sidebar on desktop) */}
+          <div className={`
+            bg-white rounded-xl border border-brand-creamText/15 p-6 shadow-luxury h-fit space-y-6
+            fixed inset-y-0 left-0 z-50 w-72 max-w-full transform transition-transform duration-300 ease-in-out overflow-y-auto custom-scrollbar
+            lg:static lg:w-auto lg:translate-x-0 lg:z-auto lg:overflow-visible lg:block
+            ${mobileFiltersOpen ? 'translate-x-0' : '-translate-x-full'}
+          `}>
+            {/* Mobile Close Header */}
+            <div className="flex items-center justify-between pb-4 border-b border-brand-cream-dark lg:hidden">
+              <span className="font-serif font-bold text-sm text-brand-blue-deep uppercase tracking-wider">Filters</span>
+              <button 
+                onClick={() => setMobileFiltersOpen(false)}
+                className="text-gray-400 hover:text-brand-blue-deep p-1"
+              >
+                <X size={20} />
+              </button>
+            </div>
             <div className="flex items-center justify-between pb-4 border-b border-brand-cream-dark">
               <span className="font-serif font-bold text-base text-brand-blue-deep flex items-center gap-2">
                 <SlidersHorizontal size={18} className="text-brand-creamText" />
@@ -244,9 +269,22 @@ const Shop = () => {
             
             {/* Toolbar */}
             <div className="bg-white rounded-xl border border-brand-creamText/15 p-4 shadow-luxury flex flex-col sm:flex-row items-center justify-between gap-4">
-              <span className="text-xs text-gray-500 font-sans">
-                Showing <span className="font-semibold text-brand-blue-deep">{products.length}</span> of <span className="font-semibold text-brand-blue-deep">{totalProducts}</span> weavers creations
-              </span>
+              <div className="flex items-center justify-between w-full sm:w-auto gap-4">
+                <span className="text-xs text-gray-500 font-sans">
+                  Showing <span className="font-semibold text-brand-blue-deep">{products.length}</span> of <span className="font-semibold text-brand-blue-deep">{totalProducts}</span> weavers creations
+                </span>
+                
+                <button
+                  onClick={() => setMobileFiltersOpen(true)}
+                  className="lg:hidden bg-brand-cream hover:bg-brand-creamText/20 text-brand-blue-deep text-xs font-semibold px-4 py-2 rounded-lg border border-brand-creamText/20 flex items-center gap-1.5 transition-all duration-200"
+                >
+                  <SlidersHorizontal size={14} />
+                  <span>Filters</span>
+                  {(selectedCategory || searchQuery || minPrice || maxPrice || featuredOnly || discountOnly) && (
+                    <span className="h-2 w-2 rounded-full bg-brand-blue-light animate-pulse"></span>
+                  )}
+                </button>
+              </div>
 
               {/* Sorting dropdown */}
               <div className="flex items-center space-x-2">

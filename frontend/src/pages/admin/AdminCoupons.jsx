@@ -123,7 +123,7 @@ const AdminCoupons = () => {
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="text-[10px] text-gray-500 font-bold uppercase block mb-1">Discount Type *</label>
                   <select
@@ -197,7 +197,8 @@ const AdminCoupons = () => {
         </div>
       ) : (
         <div className="bg-white rounded-xl border border-brand-creamText/15 shadow-luxury overflow-hidden">
-          <div className="overflow-x-auto">
+          {/* Desktop Table View */}
+          <div className="hidden md:block overflow-x-auto">
             <table className="w-full text-left text-xs font-sans">
               <thead className="bg-brand-cream/50 text-gray-500 uppercase font-bold border-b border-brand-creamText/10">
                 <tr>
@@ -245,6 +246,60 @@ const AdminCoupons = () => {
                 ))}
               </tbody>
             </table>
+          </div>
+
+          {/* Mobile Card View */}
+          <div className="md:hidden divide-y divide-gray-100">
+            {coupons.map((coupon) => (
+              <div key={coupon._id} className="p-4 space-y-3 hover:bg-brand-cream/5">
+                <div className="flex justify-between items-start">
+                  <div>
+                    <span className="font-mono font-bold text-brand-blue-deep text-sm block">
+                      {coupon.code}
+                    </span>
+                    <span className="text-[10px] text-gray-400 block mt-1 font-sans">
+                      Expires: {new Date(coupon.expiryDate).toLocaleDateString()}
+                    </span>
+                  </div>
+                  <div>
+                    {coupon.active && new Date(coupon.expiryDate) > new Date() ? (
+                      <span className="text-green-700 bg-green-50 border border-green-200 px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider">Active</span>
+                    ) : (
+                      <span className="text-red-700 bg-red-50 border border-red-200 px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider">Expired / Disabled</span>
+                    )}
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between pt-2 border-t border-gray-100 text-xs">
+                  <div className="font-semibold text-gray-800">
+                    Discount: {coupon.discountType === 'flat' ? `₹${coupon.discountValue} Off` : `${coupon.discountValue || coupon.discountPercentage}% Off`}
+                  </div>
+
+                  <div className="flex items-center space-x-2">
+                    <button
+                      onClick={() => handleToggleCoupon(coupon._id)}
+                      className={`flex items-center gap-1 border px-2.5 py-1 rounded text-[11px] font-semibold transition-colors ${
+                        coupon.active 
+                          ? 'border-red-200 bg-red-50 text-red-600 hover:bg-red-100' 
+                          : 'border-green-200 bg-green-50 text-green-600 hover:bg-green-100'
+                      }`}
+                      title={coupon.active ? 'Disable Coupon' : 'Activate Coupon'}
+                    >
+                      {coupon.active ? <PowerOff size={12} /> : <Power size={12} />}
+                      <span>{coupon.active ? 'Disable' : 'Enable'}</span>
+                    </button>
+                    <button
+                      onClick={() => handleDeleteCoupon(coupon._id)}
+                      className="text-red-600 hover:text-red-800 flex items-center gap-1 border border-red-200 px-2.5 py-1 rounded bg-red-50"
+                      title="Delete Coupon"
+                    >
+                      <Trash2 size={12} />
+                      <span>Delete</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       )}

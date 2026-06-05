@@ -115,7 +115,7 @@ const Cart = () => {
                     </div>
 
                     {/* Price and quantity adjuster */}
-                    <div className="flex justify-between items-center mt-3 pt-2 border-t border-brand-cream-dark">
+                    <div className="flex flex-wrap justify-between items-center gap-2 mt-3 pt-2 border-t border-brand-cream-dark">
                       
                       {/* Price calculations */}
                       <div className="flex items-baseline space-x-2">
