@@ -15,16 +15,19 @@ const getDateDaysAgo = (days) => {
 // @access  Private/Admin
 const getDashboardStats = async (req, res) => {
   try {
+    const db = require('../config/db').getDB();
+
     // 1. Core counters
     const totalOrders = await Order.countDocuments({});
     const totalCustomers = await User.countDocuments({ role: 'user' });
     const totalProducts = await Product.countDocuments({});
 
-    const revenueResult = await Order.aggregate([
-      { $match: { paymentStatus: 'Paid' } },
-      { $group: { _id: null, total: { $sum: '$totalAmount' } } }
-    ]);
-    const totalRevenue = revenueResult.length > 0 ? revenueResult[0].total : 0;
+    // Calculate total revenue using native SQL SUM
+    const revenueResult = await db.execute({
+      sql: 'SELECT SUM("totalAmount") as total FROM "orders" WHERE "paymentStatus" = \'Paid\'',
+      args: []
+    });
+    const totalRevenue = revenueResult.rows[0]?.total || 0;
 
     // 2. Recent Orders (last 6)
     const recentOrders = await Order.find({})
@@ -38,25 +41,29 @@ const getDashboardStats = async (req, res) => {
     sixMonthsAgo.setDate(1);
     sixMonthsAgo.setHours(0, 0, 0, 0);
 
-    const monthlySales = await Order.aggregate([
-      {
-        $match: {
-          paymentStatus: 'Paid',
-          createdAt: { $gte: sixMonthsAgo }
-        }
+    const monthlySalesResult = await db.execute({
+      sql: `
+        SELECT 
+          CAST(strftime('%Y', "createdAt") AS INTEGER) as year,
+          CAST(strftime('%m', "createdAt") AS INTEGER) as month,
+          SUM("totalAmount") as revenue,
+          COUNT(*) as orders
+        FROM "orders"
+        WHERE "paymentStatus" = 'Paid' AND "createdAt" >= ?
+        GROUP BY year, month
+        ORDER BY year ASC, month ASC
+      `,
+      args: [sixMonthsAgo.toISOString()]
+    });
+
+    const monthlySales = monthlySalesResult.rows.map(row => ({
+      _id: {
+        year: row.year,
+        month: row.month
       },
-      {
-        $group: {
-          _id: {
-            year: { $year: '$createdAt' },
-            month: { $month: '$createdAt' }
-          },
-          revenue: { $sum: '$totalAmount' },
-          orders: { $sum: 1 }
-        }
-      },
-      { $sort: { '_id.year': 1, '_id.month': 1 } }
-    ]);
+      revenue: row.revenue || 0,
+      orders: row.orders || 0
+    }));
 
     // Format monthly data for easy graph mapping
     const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -78,44 +85,23 @@ const getDashboardStats = async (req, res) => {
     }
 
     // 4. Top Selling Categories distribution
-    const categoryDistribution = await Order.aggregate([
-      { $match: { paymentStatus: 'Paid' } },
-      { $unwind: '$products' },
-      {
-        $lookup: {
-          from: 'products',
-          localField: 'products.product',
-          foreignField: '_id',
-          as: 'productDetails'
-        }
-      },
-      { $unwind: '$productDetails' },
-      {
-        $group: {
-          _id: '$productDetails.category',
-          salesCount: { $sum: '$products.quantity' },
-          revenue: { $sum: { $multiply: ['$products.price', '$products.quantity'] } }
-        }
-      },
-      {
-        $lookup: {
-          from: 'categories',
-          localField: '_id',
-          foreignField: '_id',
-          as: 'categoryDetails'
-        }
-      },
-      { $unwind: '$categoryDetails' },
-      {
-        $project: {
-          _id: 1,
-          name: '$categoryDetails.name',
-          salesCount: 1,
-          revenue: 1
-        }
-      },
-      { $sort: { revenue: -1 } }
-    ]);
+    const categoryDistributionResult = await db.execute({
+      sql: `
+        SELECT 
+          p.category as _id,
+          c.name as name,
+          SUM(CAST(json_extract(item.value, '$.quantity') AS INTEGER)) as salesCount,
+          SUM(CAST(json_extract(item.value, '$.price') AS REAL) * CAST(json_extract(item.value, '$.quantity') AS INTEGER)) as revenue
+        FROM "orders" o, json_each(o.products) item
+        JOIN "products" p ON p._id = json_extract(item.value, '$.product')
+        JOIN "categories" c ON c._id = p.category
+        WHERE o.paymentStatus = 'Paid'
+        GROUP BY p.category
+        ORDER BY revenue DESC
+      `,
+      args: []
+    });
+    const categoryDistribution = categoryDistributionResult.rows;
 
     res.json({
       summary: {
@@ -139,93 +125,87 @@ const getDashboardStats = async (req, res) => {
 const getRevenueAnalytics = async (req, res) => {
   try {
     const { timeline = 'monthly' } = req.query;
-    let groupStage = {};
-    let sortStage = {};
-    let matchStage = { paymentStatus: 'Paid' };
-
-    const now = new Date();
+    const db = require('../config/db').getDB();
+    let sql = '';
+    let args = [];
 
     if (timeline === 'daily') {
       // Last 14 days
-      matchStage.createdAt = { $gte: getDateDaysAgo(14) };
-      groupStage = {
-        $group: {
-          _id: {
-            year: { $year: '$createdAt' },
-            month: { $month: '$createdAt' },
-            day: { $dayOfMonth: '$createdAt' }
-          },
-          revenue: { $sum: '$totalAmount' },
-          orders: { $sum: 1 }
-        }
-      };
-      sortStage = { $sort: { '_id.year': 1, '_id.month': 1, '_id.day': 1 } };
+      sql = `
+        SELECT 
+          CAST(strftime('%Y', "createdAt") AS INTEGER) as year,
+          CAST(strftime('%m', "createdAt") AS INTEGER) as month,
+          CAST(strftime('%d', "createdAt") AS INTEGER) as day,
+          SUM("totalAmount") as revenue,
+          COUNT(*) as orders
+        FROM "orders"
+        WHERE "paymentStatus" = 'Paid' AND "createdAt" >= ?
+        GROUP BY year, month, day
+        ORDER BY year ASC, month ASC, day ASC
+      `;
+      args.push(getDateDaysAgo(14).toISOString());
     } else if (timeline === 'weekly') {
       // Last 8 weeks
-      matchStage.createdAt = { $gte: getDateDaysAgo(56) };
-      groupStage = {
-        $group: {
-          _id: {
-            year: { $year: '$createdAt' },
-            week: { $week: '$createdAt' }
-          },
-          revenue: { $sum: '$totalAmount' },
-          orders: { $sum: 1 }
-        }
-      };
-      sortStage = { $sort: { '_id.year': 1, '_id.week': 1 } };
+      sql = `
+        SELECT 
+          CAST(strftime('%Y', "createdAt") AS INTEGER) as year,
+          CAST(strftime('%W', "createdAt") AS INTEGER) as week,
+          SUM("totalAmount") as revenue,
+          COUNT(*) as orders
+        FROM "orders"
+        WHERE "paymentStatus" = 'Paid' AND "createdAt" >= ?
+        GROUP BY year, week
+        ORDER BY year ASC, week ASC
+      `;
+      args.push(getDateDaysAgo(56).toISOString());
     } else if (timeline === 'yearly') {
       // All years
-      groupStage = {
-        $group: {
-          _id: {
-            year: { $year: '$createdAt' }
-          },
-          revenue: { $sum: '$totalAmount' },
-          orders: { $sum: 1 }
-        }
-      };
-      sortStage = { $sort: { '_id.year': 1 } };
+      sql = `
+        SELECT 
+          CAST(strftime('%Y', "createdAt") AS INTEGER) as year,
+          SUM("totalAmount") as revenue,
+          COUNT(*) as orders
+        FROM "orders"
+        WHERE "paymentStatus" = 'Paid'
+        GROUP BY year
+        ORDER BY year ASC
+      `;
     } else {
       // Monthly (Default - Last 12 months)
-      matchStage.createdAt = { $gte: getDateDaysAgo(365) };
-      groupStage = {
-        $group: {
-          _id: {
-            year: { $year: '$createdAt' },
-            month: { $month: '$createdAt' }
-          },
-          revenue: { $sum: '$totalAmount' },
-          orders: { $sum: 1 }
-        }
-      };
-      sortStage = { $sort: { '_id.year': 1, '_id.month': 1 } };
+      sql = `
+        SELECT 
+          CAST(strftime('%Y', "createdAt") AS INTEGER) as year,
+          CAST(strftime('%m', "createdAt") AS INTEGER) as month,
+          SUM("totalAmount") as revenue,
+          COUNT(*) as orders
+        FROM "orders"
+        WHERE "paymentStatus" = 'Paid' AND "createdAt" >= ?
+        GROUP BY year, month
+        ORDER BY year ASC, month ASC
+      `;
+      args.push(getDateDaysAgo(365).toISOString());
     }
 
-    const data = await Order.aggregate([
-      { $match: matchStage },
-      groupStage,
-      sortStage
-    ]);
+    const result = await db.execute({ sql, args });
 
     // Format output label
     const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    const formattedData = data.map(item => {
+    const formattedData = result.rows.map(item => {
       let label = '';
       if (timeline === 'daily') {
-        label = `${item._id.day}/${item._id.month}/${item._id.year}`;
+        label = `${item.day}/${item.month}/${item.year}`;
       } else if (timeline === 'weekly') {
-        label = `Wk ${item._id.week}, ${item._id.year}`;
+        label = `Wk ${item.week}, ${item.year}`;
       } else if (timeline === 'yearly') {
-        label = `${item._id.year}`;
+        label = `${item.year}`;
       } else {
-        label = `${monthNames[item._id.month - 1]} ${item._id.year}`;
+        label = `${monthNames[item.month - 1]} ${item.year}`;
       }
 
       return {
         label,
-        revenue: item.revenue,
-        orders: item.orders
+        revenue: item.revenue || 0,
+        orders: item.orders || 0
       };
     });
 

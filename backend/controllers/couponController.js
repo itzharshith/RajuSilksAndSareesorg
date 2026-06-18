@@ -21,7 +21,7 @@ const validateCoupon = async (req, res) => {
       return res.status(400).json({ message: 'Coupon has been deactivated' });
     }
 
-    if (coupon.expiryDate < new Date()) {
+    if (new Date(coupon.expiryDate) < new Date()) {
       return res.status(400).json({ message: 'Coupon code has expired' });
     }
 

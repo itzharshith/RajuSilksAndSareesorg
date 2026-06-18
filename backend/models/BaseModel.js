@@ -505,8 +505,19 @@ class BaseModel {
     const doc = await this.findById(id);
     if (!doc) return null;
 
+    // Handle $inc operator
+    if (update.$inc) {
+      for (const key of Object.keys(update.$inc)) {
+        if (this.columns.includes(key)) {
+          const currentVal = Number(doc[key]) || 0;
+          doc[key] = currentVal + Number(update.$inc[key]);
+        }
+      }
+    }
+
     const fields = update.$set || update;
     for (const key of Object.keys(fields)) {
+      if (key.startsWith('$')) continue; // Skip operator keys like $inc or $set
       if (this.columns.includes(key)) {
         doc[key] = fields[key];
       }

@@ -47,7 +47,7 @@ const createOrder = async (req, res) => {
     let couponApplied = null;
     if (couponCode) {
       const coupon = await Coupon.findOne({ code: couponCode.toUpperCase(), active: true });
-      if (coupon && coupon.expiryDate > new Date()) {
+      if (coupon && new Date(coupon.expiryDate) > new Date()) {
         if (coupon.discountType === 'flat') {
           discountAmount = Math.min(subtotal, coupon.discountValue);
         } else {
