@@ -13,12 +13,13 @@ const app = express();
 
 // Security Middlewares
 app.use(helmet({
-  crossOriginResourcePolicy: false // Allows serving static uploads folder to frontend across origins
+  crossOriginResourcePolicy: false // Allows serving static uploads folder
 }));
 
-// CORS Configuration: allow localhost in dev, restrict to FRONTEND_URL in production
+// CORS Configuration: Same-domain in production, allow localhost in dev
 const allowedOrigins = [
   'http://localhost:3000',
+  'http://localhost:5173', // Vite standard dev port
   process.env.FRONTEND_URL
 ].filter(Boolean);
 
@@ -36,15 +37,15 @@ app.use(cors({
 // Rate limiting: general protection
 const generalLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 200, // Limit each IP to 200 requests per 15 mins
+  max: 200, 
   message: { message: 'Too many requests, please try again after 15 minutes.' }
 });
 app.use('/api', generalLimiter);
 
-// Stricter rate limits for login and reset endpoints to prevent brute-force attacks
+// Stricter rate limits for auth
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 20, // Max 20 attempts
+  max: 20, 
   message: { message: 'Too many authentication attempts. Please try again after 15 minutes.' }
 });
 app.use('/api/users/login', authLimiter);
@@ -55,8 +56,8 @@ app.use('/api/users/reset-password', authLimiter);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve Uploads folder statically
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+// 🔥 FIXED: Changed from '/uploads' to '/api/uploads' so Vercel routes it to the backend service
+app.use('/api/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Routes mapping
 const userRoutes = require('./routes/userRoutes');
@@ -76,7 +77,7 @@ app.use('/api/payment', paymentRoutes);
 app.use('/api/analytics', analyticsRoutes);
 
 // Root route
-app.get('/', (req, res) => {
+app.get('/api', (req, res) => {
   res.json({ message: 'Raju Silks & Sarees REST APIs are fully functional!' });
 });
 
