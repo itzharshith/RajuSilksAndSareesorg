@@ -23,20 +23,31 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   const session = await auth();
   if (!session) return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
+
   const userId = (session.user as any).id;
-  const { products, shippingAddress, couponCode, paymentDetails } = await req.json();
+  const customerEmail = session.user?.email || "customer@example.com";
+  const customerName = session.user?.name || "Guest Customer";
+
+  const { products, shippingAddress, couponCode, customerPhone } = await req.json();
+
   if (!products || products.length === 0) return NextResponse.json({ message: 'No items in order' }, { status: 400 });
   if (!shippingAddress) return NextResponse.json({ message: 'Shipping address is required' }, { status: 400 });
+
   let subtotal = 0;
   const orderProducts = [];
+
+  // 1. Stock Check & Pricing Loops
   for (const item of products) {
     const product: any = await Product.findById(item.product);
     if (!product) return NextResponse.json({ message: `Product not found: ${item.product}` }, { status: 404 });
     if (product.stock < item.quantity) return NextResponse.json({ message: `Insufficient stock for: ${product.name}` }, { status: 400 });
+
     const discountedPrice = product.price * (1 - (product.discount || 0) / 100);
     subtotal += discountedPrice * item.quantity;
     orderProducts.push({ product: product._id, quantity: item.quantity, price: discountedPrice });
   }
+
+  // 2. Coupon Parsing logic
   let discountAmount = 0;
   let couponApplied = null;
   if (couponCode) {
@@ -47,13 +58,31 @@ export async function POST(req: NextRequest) {
       couponApplied = coupon.code;
     }
   }
+
+  // 3. Final Calculations
   const taxableAmount = subtotal - discountAmount;
   const taxAmount = Math.round(taxableAmount * 0.05);
   const shippingCharges = taxableAmount > 5000 ? 0 : 100;
   const totalAmount = Math.round(taxableAmount + taxAmount + shippingCharges);
+
+  // 4. Update Stock Inventory Numbers
   for (const item of products) {
     await Product.findByIdAndUpdate(item.product, { $inc: { stock: -item.quantity } });
   }
-  const order = await Order.create({ user: userId, products: orderProducts, totalAmount, discountAmount, taxAmount, shippingCharges, shippingAddress, paymentStatus: paymentDetails ? 'Paid' : 'Pending', paymentDetails, couponApplied });
+
+  // 5. Generate Database Order Entry First
+  // We leave paymentStatus as 'Pending' because checkout hasn't completed yet
+  const order = await Order.create({
+    user: userId,
+    products: orderProducts,
+    totalAmount,
+    discountAmount,
+    taxAmount,
+    shippingCharges,
+    shippingAddress,
+    paymentStatus: 'Pending',
+    couponApplied
+  });
+
   return NextResponse.json(order, { status: 201 });
 }

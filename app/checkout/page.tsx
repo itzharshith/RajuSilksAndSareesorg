@@ -3,7 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { useCart } from '@/components/providers/CartProvider';
-import { CreditCard, MapPin, Plus, CheckCircle, AlertTriangle } from 'lucide-react';
+import { MapPin, Plus, CheckCircle } from 'lucide-react';
+import CheckoutButton from '@/components/CheckoutButton';
 
 interface Address {
   _id: string;
@@ -29,9 +30,7 @@ export default function CheckoutPage() {
   const [pageLoading, setPageLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState('');
   
-  // Custom mock Razorpay Modal overlay state
-  const [showRazorpayModal, setShowRazorpayModal] = useState(false);
-  const [createdOrderDetails, setCreatedOrderDetails] = useState<any>(null);
+
 
   // Address Form state
   const [street, setStreet] = useState('');
@@ -127,64 +126,16 @@ export default function CheckoutPage() {
     }
   };
 
-  const handlePlaceOrder = async () => {
+  const handleBeforeCheckout = async (): Promise<string | null> => {
     if (!addresses || addresses.length === 0) {
       setErrorMsg('Please add a delivery address to proceed.');
-      return;
+      return null;
     }
-    
+
     setErrorMsg('');
     setLoading(true);
 
     try {
-      // 1. Create order on mock payment backend API
-      const res = await fetch('/api/payment/create-order', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ amount: totalAmount })
-      });
-      const payOrder = await res.json();
-      if (!res.ok) {
-        throw new Error(payOrder.message || 'Failed to initialize payment order');
-      }
-
-      // Store payOrder details and open mock Razorpay modal
-      setCreatedOrderDetails(payOrder);
-      setShowRazorpayModal(true);
-    } catch (err: any) {
-      setErrorMsg(err.message || 'Failed to initialize payment order');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleSimulatePaymentSuccess = async () => {
-    if (!createdOrderDetails) return;
-    
-    setLoading(true);
-    setShowRazorpayModal(false);
-
-    try {
-      // 2. Call mock verification endpoint
-      const mockPayId = `pay_${Math.random().toString(36).substring(2, 11)}`;
-      const mockSig = `sig_${Math.random().toString(36).substring(2, 17)}`;
-      
-      const verifyRes = await fetch('/api/payment/verify', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          razorpay_order_id: createdOrderDetails.id,
-          razorpay_payment_id: mockPayId,
-          razorpay_signature: mockSig
-        })
-      });
-
-      const verifyData = await verifyRes.json();
-      if (!verifyRes.ok || !verifyData.success) {
-        throw new Error(verifyData.message || 'Failed to verify payment');
-      }
-
-      // 3. Place actual Order inside DB
       const targetAddress = addresses[selectedAddressIdx];
       const orderData = {
         products: cartItems.map(item => ({
@@ -199,12 +150,7 @@ export default function CheckoutPage() {
           postalCode: targetAddress.postalCode,
           country: targetAddress.country
         },
-        couponCode: coupon?.code,
-        paymentDetails: {
-          razorpayOrderId: createdOrderDetails.id,
-          razorpayPaymentId: mockPayId,
-          razorpaySignature: mockSig
-        }
+        couponCode: coupon?.code
       };
 
       const placeOrderRes = await fetch('/api/orders', {
@@ -217,20 +163,13 @@ export default function CheckoutPage() {
       if (!placeOrderRes.ok) {
         throw new Error(placeOrderData.message || 'Failed to place order');
       }
-      
-      clearCart();
-      alert('Order placed successfully! Redirecting to your purchase history.');
-      router.push('/orders');
-    } catch (err: any) {
-      setErrorMsg(err.message || 'Failed to place order after payment.');
-    } finally {
-      setLoading(false);
-    }
-  };
 
-  const handleSimulatePaymentFailure = () => {
-    setShowRazorpayModal(false);
-    setErrorMsg('Payment transaction declined by user. Order placement aborted.');
+      return placeOrderData._id;
+    } catch (err: any) {
+      setErrorMsg(err.message || 'Failed to place order.');
+      setLoading(false);
+      return null;
+    }
   };
 
   if (pageLoading || status === 'loading') {
@@ -244,67 +183,7 @@ export default function CheckoutPage() {
   return (
     <div className="bg-brand-cream min-h-screen py-12 font-sans relative">
       
-      {/* MOCK RAZORPAY DIALOG OVERLAY */}
-      {showRazorpayModal && createdOrderDetails && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 px-4">
-          <div className="bg-[#1A1F2C] text-white w-full max-w-sm rounded-xl overflow-hidden shadow-2xl border border-brand-cream-text/30 animate-scale-up font-sans">
-            
-            {/* Header */}
-            <div className="bg-brand-blue px-6 py-4 flex items-center justify-between border-b border-brand-cream-text/20">
-              <div className="flex flex-col">
-                <span className="font-serif font-bold text-base text-brand-cream-text tracking-widest">RAJU SILKS & SAREES</span>
-                <span className="text-[10px] text-brand-cream/70 uppercase font-sans">Razorpay Secure Checkout</span>
-              </div>
-              <div className="text-[10px] bg-brand-cream-text/15 text-brand-cream-text px-2 py-0.5 rounded border border-brand-cream-text/25 font-bold">MOCK MODE</div>
-            </div>
 
-            {/* Content Body */}
-            <div className="p-6 space-y-5">
-              <div className="flex justify-between items-center text-xs pb-3 border-b border-gray-700/50">
-                <span className="text-gray-400">Order ID:</span>
-                <span className="font-mono text-brand-cream-text font-semibold">{createdOrderDetails.id}</span>
-              </div>
-
-              <div className="text-center py-4 bg-brand-blue/20 rounded-lg border border-brand-cream-text/10">
-                <span className="text-[10px] text-gray-400 block mb-1 uppercase tracking-widest">Amount to Pay</span>
-                <span className="text-3xl font-serif font-bold text-brand-cream-text">₹{totalAmount.toLocaleString('en-IN')}</span>
-              </div>
-
-              <div className="text-xs text-gray-400 space-y-1.5 leading-relaxed bg-[#11151e] p-4 rounded-lg border border-gray-800">
-                <p className="flex items-center gap-1.5 text-brand-cream-text font-bold">
-                  <CheckCircle size={14} />
-                  Razorpay Sandbox Environment
-                </p>
-                <p>Clicking "Simulate Success" triggers mock validation and creates the database order document.</p>
-              </div>
-
-              <div className="flex flex-col gap-2.5 pt-2">
-                <button
-                  onClick={handleSimulatePaymentSuccess}
-                  className="w-full bg-[#18b87e] hover:bg-[#149d6b] text-white text-xs font-bold py-3 rounded-lg flex items-center justify-center space-x-1.5 transition-colors"
-                >
-                  <CheckCircle size={14} />
-                  <span>SIMULATE PAYMENT SUCCESS</span>
-                </button>
-                
-                <button
-                  onClick={handleSimulatePaymentFailure}
-                  className="w-full bg-red-600 hover:bg-red-700 text-white text-xs font-bold py-3 rounded-lg flex items-center justify-center space-x-1.5 transition-colors"
-                >
-                  <AlertTriangle size={14} />
-                  <span>SIMULATE PAYMENT FAILURE</span>
-                </button>
-              </div>
-            </div>
-
-            {/* Footer */}
-            <div className="bg-[#11151e] py-3 text-center text-[9px] text-gray-500 border-t border-gray-800">
-              Payments processed securely using mock keys.
-            </div>
-
-          </div>
-        </div>
-      )}
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
@@ -530,14 +409,15 @@ export default function CheckoutPage() {
               </div>
 
               {/* Checkout trigger */}
-              <button
-                onClick={handlePlaceOrder}
+              <CheckoutButton
+                amount={totalAmount}
+                customerId={(session?.user as any)?.id || 'guest_user'}
+                customerName={userName || session?.user?.name || 'Guest User'}
+                customerEmail={session?.user?.email || 'guest@example.com'}
+                customerPhone={userPhone || '9999999999'}
                 disabled={loading || !addresses || addresses.length === 0}
-                className="w-full bg-brand-blue hover:bg-brand-blue-deep text-white font-sans font-semibold tracking-wider text-xs py-3.5 rounded-full flex items-center justify-center space-x-2 shadow-md transition-all duration-200 border border-brand-cream-text/20 disabled:opacity-50"
-              >
-                <CreditCard size={15} />
-                <span>{loading ? 'INITIALIZING PAYMENT...' : 'PAY WITH RAZORPAY'}</span>
-              </button>
+                onBeforeCheckout={handleBeforeCheckout}
+              />
             </div>
 
           </div>
