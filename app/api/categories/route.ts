@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
   if (!name) return NextResponse.json({ message: 'Category name is required' }, { status: 400 });
   const exists = await Category.findOne({ name });
   if (exists) return NextResponse.json({ message: 'Category already exists' }, { status: 400 });
-  let imageUrl = '/images/placeholder-category.jpg';
+  let imageUrl = '/images/placeholder-category.svg';
   if (file && file.size > 0 && isConfigured) {
     const buf = Buffer.from(await file.arrayBuffer());
     const result: any = await new Promise((resolve, reject) => {

@@ -73,7 +73,7 @@ export async function POST(req: NextRequest) {
       }
     }
   }
-  if (imageUrls.length === 0) imageUrls.push('/images/placeholder-product.jpg');
+  if (imageUrls.length === 0) imageUrls.push('/images/placeholder-product.svg');
   const product = await Product.create({ name, description, category, images: imageUrls, price: Number(price), stock: Number(stock), discount: discount ? Number(discount) : 0, featured: featured === 'true' });
   const populated = await Product.findById(product._id).populate('category', 'name');
   return NextResponse.json(populated, { status: 201 });

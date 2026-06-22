@@ -1,0 +1,45 @@
+<svg width="800" height="600" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#b76e79" />
+      <stop offset="60%" stop-color="#b76e79dd" />
+      <stop offset="100%" stop-color="#b76e7988" />
+    </linearGradient>
+    <linearGradient id="zariGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#d4af37" />
+      <stop offset="30%" stop-color="#fff4b8" />
+      <stop offset="70%" stop-color="#d4af37" />
+      <stop offset="100%" stop-color="#b8860b" />
+    </linearGradient>
+    <pattern id="motifs" x="0" y="0" width="80" height="80" patternUnits="userSpaceOnUse">
+      <circle cx="40" cy="40" r="10" fill="#d4af37" opacity="0.5" />
+              <circle cx="25" cy="40" r="7" fill="#d4af37" opacity="0.35" />
+              <circle cx="55" cy="40" r="7" fill="#d4af37" opacity="0.35" />
+              <circle cx="40" cy="25" r="7" fill="#d4af37" opacity="0.35" />
+              <circle cx="40" cy="55" r="7" fill="#d4af37" opacity="0.35" />
+    </pattern>
+  </defs>
+  <!-- Saree Drape Body -->
+  <rect width="800" height="600" fill="url(#bodyGrad)" />
+  <!-- Overlapping drape pattern texture -->
+  <rect width="800" height="600" fill="url(#motifs)" opacity="0.3" />
+  
+  <!-- Saree Borders (Zari) -->
+  <rect x="0" y="0" width="800" height="50" fill="url(#zariGrad)" />
+  <rect x="0" y="550" width="800" height="50" fill="url(#zariGrad)" />
+  
+  <!-- Border Inner details -->
+  <line x1="0" y1="50" x2="800" y2="50" stroke="#ffffff" stroke-width="2" opacity="0.4" />
+  <line x1="0" y1="550" x2="800" y2="550" stroke="#ffffff" stroke-width="2" opacity="0.4" />
+
+  <!-- Zari border traditional shapes -->
+  <path d="M 0 25 L 800 25" stroke="#d4af37" stroke-width="6" stroke-dasharray="10 15" opacity="0.5" />
+  <path d="M 0 575 L 800 575" stroke="#d4af37" stroke-width="6" stroke-dasharray="10 15" opacity="0.5" />
+
+  <!-- Category Title Card -->
+  <rect x="250" y="240" width="300" height="120" rx="15" fill="#ffffff" filter="drop-shadow(0px 8px 16px rgba(0,0,0,0.3))" />
+  <rect x="255" y="245" width="290" height="110" rx="10" fill="none" stroke="url(#zariGrad)" stroke-width="3" />
+  
+  <text x="400" y="295" font-family="'Cinzel', 'Playfair Display', serif" font-size="22" font-weight="bold" fill="#333333" text-anchor="middle" letter-spacing="2">RUSSIAN SILKS</text>
+  <text x="400" y="325" font-family="'Inter', sans-serif" font-size="10" font-weight="bold" fill="#d4af37" text-anchor="middle" letter-spacing="4">LUXURY COLLECTION</text>
+</svg>

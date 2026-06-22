@@ -50,7 +50,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
       }
     }
   }
-  if (finalImages.length === 0) finalImages = product.images.length > 0 ? product.images : ['/images/placeholder-product.jpg'];
+  if (finalImages.length === 0) finalImages = product.images.length > 0 ? product.images : ['/images/placeholder-product.svg'];
   product.images = finalImages;
   await product.save();
   const populated = await Product.findById(id).populate('category', 'name');

@@ -1,0 +1,47 @@
+<svg width="600" height="800" viewBox="0 0 600 800" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bodyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#8b008b" />
+      <stop offset="40%" stop-color="#8b008b" />
+      <stop offset="100%" stop-color="#8b008baa" />
+    </linearGradient>
+    <linearGradient id="zariGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#006400" />
+      <stop offset="50%" stop-color="#fff5c0" />
+      <stop offset="100%" stop-color="#006400" />
+    </linearGradient>
+    <pattern id="motifs" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
+      <path d="M 20,40 C 20,20 40,20 40,40 C 40,50 30,60 20,60 C 10,60 10,40 20,40 Z M 20,30 C 25,30 25,35 20,35 Z" fill="#006400" opacity="0.35" transform="scale(0.7) translate(15, 15)" />
+    </pattern>
+  </defs>
+  
+  <!-- Base Silk Fabric -->
+  <rect width="600" height="800" fill="url(#bodyGrad)" />
+  
+  <!-- Shiny Pleats / Waves -->
+  <path d="M -50 0 C 150 100 100 700 250 800" fill="none" stroke="#ffffff" stroke-width="80" opacity="0.05" />
+  <path d="M 150 0 C 350 200 300 600 450 800" fill="none" stroke="#ffffff" stroke-width="120" opacity="0.04" />
+  <path d="M 350 0 C 500 100 450 700 650 800" fill="none" stroke="#ffffff" stroke-width="80" opacity="0.05" />
+
+  <!-- Saree Motifs pattern -->
+  <rect width="600" height="800" fill="url(#motifs)" opacity="0.25" />
+  
+  <!-- Traditional Heavy Pallu (End piece) -->
+  <rect x="0" y="650" width="600" height="150" fill="url(#zariGrad)" />
+  <!-- Pallu details -->
+  <rect x="0" y="660" width="600" height="10" fill="#8b008b" opacity="0.4" />
+  <rect x="0" y="780" width="600" height="10" fill="#8b008b" opacity="0.4" />
+  
+  <!-- Pallu motifs -->
+  <path d="M 50 725 Q 100 680 150 725 T 250 725 T 350 725 T 450 725 T 550 725" fill="none" stroke="#ffffff" stroke-width="4" opacity="0.6" />
+  
+  <!-- Top Saree Border -->
+  <rect x="0" y="0" width="600" height="40" fill="url(#zariGrad)" />
+  <line x1="0" y1="40" x2="600" y2="40" stroke="#ffffff" stroke-width="1" opacity="0.5" />
+  
+  <!-- Elegant overlay details representing folded saree visual -->
+  <rect x="40" y="80" width="520" height="520" rx="8" fill="none" stroke="#ffffff" stroke-width="1" opacity="0.1" />
+  
+  <!-- Gold Zari Border details -->
+  <circle cx="300" cy="725" r="30" fill="none" stroke="#ffffff" stroke-width="2" opacity="0.3" />
+</svg>
