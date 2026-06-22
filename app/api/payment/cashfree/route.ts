@@ -3,10 +3,12 @@ import { Cashfree, CFEnvironment } from "cashfree-pg";
 
 // Initialize the Cashfree SDK using your environment variables securely.
 // Note: While testing in development, keep this on SANDBOX. Change to PRODUCTION only when live.
-Cashfree.XEnvironment = CFEnvironment.SANDBOX;
-Cashfree.XClientId = process.env.CASHFREE_APP_ID as string;
-Cashfree.XClientSecret = process.env.CASHFREE_SECRET_KEY as string;
-Cashfree.XApiVersion = "2023-08-01";
+const cashfree = new Cashfree(
+  process.env.NEXT_PUBLIC_CASHFREE_MODE === "production" ? CFEnvironment.PRODUCTION : CFEnvironment.SANDBOX,
+  process.env.CASHFREE_APP_ID!,
+  process.env.CASHFREE_SECRET_KEY!
+);
+cashfree.XApiVersion = "2023-08-01";
 
 export async function POST(req: NextRequest) {
   try {
@@ -40,7 +42,7 @@ export async function POST(req: NextRequest) {
     };
 
     // 4. Send request to Cashfree API Core Engine
-    const response = await Cashfree.PGCreateOrder(requestPayload);
+    const response = await cashfree.PGCreateOrder(requestPayload);
 
     // 5. Return both the new tracking parameters and the critical payment_session_id back to the React client layout
     return NextResponse.json({

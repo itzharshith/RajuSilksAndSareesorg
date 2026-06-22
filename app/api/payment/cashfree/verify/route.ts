@@ -2,10 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import { Cashfree, CFEnvironment } from "cashfree-pg";
 import { Order } from "@/lib/models/Order";
 
-Cashfree.XEnvironment = CFEnvironment.SANDBOX;
-Cashfree.XClientId = process.env.CASHFREE_APP_ID as string;
-Cashfree.XClientSecret = process.env.CASHFREE_SECRET_KEY as string;
-Cashfree.XApiVersion = "2023-08-01";
+const cashfree = new Cashfree(
+  process.env.NEXT_PUBLIC_CASHFREE_MODE === "production" ? CFEnvironment.PRODUCTION : CFEnvironment.SANDBOX,
+  process.env.CASHFREE_APP_ID!,
+  process.env.CASHFREE_SECRET_KEY!
+);
+cashfree.XApiVersion = "2023-08-01";
 
 export async function GET(req: NextRequest) {
   try {
@@ -17,7 +19,7 @@ export async function GET(req: NextRequest) {
     }
 
     // 1. Fetch order details from Cashfree
-    const response = await Cashfree.PGFetchOrder(orderId);
+    const response = await cashfree.PGFetchOrder(orderId);
     const cfOrder = response.data;
 
     // 2. Check payment status

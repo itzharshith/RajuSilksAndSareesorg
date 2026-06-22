@@ -6,12 +6,12 @@ import { Coupon } from '@/lib/models/Coupon';
 import { Cashfree, CFEnvironment } from "cashfree-pg";
 
 // Initialize Cashfree SDK
-Cashfree.XClientId = process.env.CASHFREE_APP_ID!;
-Cashfree.XClientSecret = process.env.CASHFREE_SECRET_KEY!;
-Cashfree.XEnvironment = process.env.NEXT_PUBLIC_CASHFREE_MODE === "production" 
-  ? CFEnvironment.PRODUCTION 
-  : CFEnvironment.SANDBOX;
-Cashfree.XApiVersion = "2023-08-01";
+const cashfree = new Cashfree(
+  process.env.NEXT_PUBLIC_CASHFREE_MODE === "production" ? CFEnvironment.PRODUCTION : CFEnvironment.SANDBOX,
+  process.env.CASHFREE_APP_ID!,
+  process.env.CASHFREE_SECRET_KEY!
+);
+cashfree.XApiVersion = "2023-08-01";
 
 // ==========================================
 // GET: Fetch User Orders or Admin Dashboard
@@ -19,7 +19,7 @@ Cashfree.XApiVersion = "2023-08-01";
 export async function GET(req: NextRequest) {
   const session = await auth();
   if (!session) return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
-  
+
   const userId = (session.user as any).id;
   const role = (session.user as any).role;
   const { searchParams } = new URL(req.url);
@@ -32,7 +32,7 @@ export async function GET(req: NextRequest) {
       .sort({ createdAt: -1 });
     return NextResponse.json(orders);
   }
-  
+
   const orders = await Order.find({ user: userId })
     .populate('products.product', 'name images')
     .sort({ createdAt: -1 });
@@ -113,7 +113,7 @@ export async function POST(req: NextRequest) {
     const orderRequest = {
       order_amount: totalAmount.toString(),
       order_currency: "INR",
-      order_id: order._id.toString(), 
+      order_id: order._id.toString(),
       customer_details: {
         customer_id: userId.toString(),
         customer_name: customerName,
@@ -121,12 +121,12 @@ export async function POST(req: NextRequest) {
         customer_phone: customerPhone || "9999999999", // Fallback placeholder if missing
       },
       order_meta: {
-        return_url: `${process.env.NEXT_PUBLIC_BASE_URL || process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/order-verify?order_id={order_id}`,
+        return_url: `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/order-verify?order_id={order_id}`,
       },
     };
 
-    const cfResponse = await Cashfree.PGCreateOrder(orderRequest);
-    
+    const cfResponse = await cashfree.PGCreateOrder(orderRequest);
+
     // 8. Return database order details along with Cashfree session keys
     return NextResponse.json({
       success: true,
