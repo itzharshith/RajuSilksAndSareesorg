@@ -11,13 +11,27 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) return null;
+        console.log('[Auth] Authorizing credentials:', credentials?.email);
+        if (!credentials?.email || !credentials?.password) {
+          console.log('[Auth] Missing email or password');
+          return null;
+        }
         try {
           const user: any = await User.findOne({ email: credentials.email as string });
-          if (!user) return null;
-          if (user.isBlocked) return null;
+          if (!user) {
+            console.log('[Auth] User not found in database:', credentials.email);
+            return null;
+          }
+          console.log('[Auth] User found:', user.email, 'Blocked:', user.isBlocked);
+          if (user.isBlocked) {
+            console.log('[Auth] User is blocked');
+            return null;
+          }
           const isMatch = await user.comparePassword(credentials.password as string);
+          console.log('[Auth] Password match result:', isMatch);
           if (!isMatch) return null;
+          
+          console.log('[Auth] Authorization successful!');
           return {
             id: user._id,
             name: user.name,
@@ -26,7 +40,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             phone: user.phone,
             addresses: user.addresses,
           };
-        } catch (e) {
+        } catch (e: any) {
+          console.error('[Auth] Error in authorize callback:', e);
           return null;
         }
       },
@@ -57,4 +72,5 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   },
   session: { strategy: 'jwt' },
   secret: process.env.NEXTAUTH_SECRET || process.env.JWT_SECRET,
+  trustHost: true,
 });
