@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "vercel-build": "npm install --prefix frontend && npm run build --prefix frontend"
+  },
   "dependencies": {
     "cloudinary": "^2.10.0"
   }
