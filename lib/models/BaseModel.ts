@@ -103,7 +103,7 @@ async function executePopulate(docs: any[], populateOptions: any[]) {
   }
 }
 
-class QueryBuilder {
+class QueryBuilder implements PromiseLike<any> {
   model: any; filter: any; _sort: any = null; _skip: number | null = null;
   _limit: number | null = null; _select: string[] = []; _populateOptions: any[] = [];
   constructor(model: any, filter: any) { this.model = model; this.filter = filter; }
@@ -149,10 +149,15 @@ class QueryBuilder {
     if (this._populateOptions.length > 0) await executePopulate(docs, this._populateOptions);
     return docs;
   }
-  then(onSuccess: any, onError?: any) { return this.exec().then(onSuccess, onError); }
+  then<TResult1 = any, TResult2 = never>(
+    onfulfilled?: ((value: any) => TResult1 | PromiseLike<TResult1>) | undefined | null,
+    onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null
+  ): Promise<TResult1 | TResult2> {
+    return this.exec().then(onfulfilled, onrejected);
+  }
 }
 
-class SingleQueryBuilder {
+class SingleQueryBuilder implements PromiseLike<any> {
   model: any; filter: any; _select: string[] = []; _populateOptions: any[] = [];
   constructor(model: any, filter: any) { this.model = model; this.filter = filter; }
   select(fields: string) { if (typeof fields === 'string') this._select.push(...fields.split(/\s+/).filter(Boolean)); return this; }
@@ -184,7 +189,12 @@ class SingleQueryBuilder {
     if (this._populateOptions.length > 0) await executePopulate([doc], this._populateOptions);
     return doc;
   }
-  then(onSuccess: any, onError?: any) { return this.exec().then(onSuccess, onError); }
+  then<TResult1 = any, TResult2 = never>(
+    onfulfilled?: ((value: any) => TResult1 | PromiseLike<TResult1>) | undefined | null,
+    onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null
+  ): Promise<TResult1 | TResult2> {
+    return this.exec().then(onfulfilled, onrejected);
+  }
 }
 
 export class Document {
