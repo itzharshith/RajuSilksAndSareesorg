@@ -413,9 +413,9 @@ export default function ProfilePage() {
               /* Address List mapping */
               profile?.addresses && profile.addresses.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {profile.addresses.map((addr) => (
+                  {profile.addresses.map((addr, idx) => (
                     <div 
-                      key={addr._id} 
+                      key={addr._id || idx} 
                       className={`p-4 border rounded-xl flex flex-col justify-between ${
                         addr.isDefault 
                           ? 'border-brand-cream-text bg-brand-cream/35' 

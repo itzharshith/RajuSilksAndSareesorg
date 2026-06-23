@@ -29,24 +29,24 @@ function OrderVerifyContent() {
 
     const verifyPayment = async () => {
       try {
-        const res = await fetch(`/api/payment/cashfree/verify?order_id=${orderId}`);
+        const res = await fetch(`/api/orders/${orderId}`);
         const data = await res.json();
 
-        if (res.ok && data.success) {
+        if (res.ok && data) {
           setStatus('success');
-          setMessage(data.message || 'Payment verified successfully.');
+          setMessage('Order placed successfully.');
           setDetails(data);
-          // Clear cart immediately upon successful payment verification
+          // Clear cart immediately upon successful order placement
           clearCart();
         } else {
           setStatus('failed');
-          setMessage(data.message || 'Payment verification failed.');
+          setMessage(data?.message || 'We could not find your order details.');
           setDetails(data);
         }
       } catch (err: any) {
-        console.error('Error verifying payment:', err);
+        console.error('Error verifying order:', err);
         setStatus('failed');
-        setMessage('An error occurred while verifying the payment.');
+        setMessage('An error occurred while verifying your order.');
       }
     };
 
@@ -58,10 +58,10 @@ function OrderVerifyContent() {
       <div className="flex flex-col items-center justify-center py-16 px-4 text-center">
         <Loader2 className="h-16 w-16 text-brand-gold animate-spin mb-6" />
         <h2 className="font-serif font-bold text-2xl text-brand-blue-deep mb-2 tracking-wide">
-          Verifying Transaction
+          Confirming Your Order
         </h2>
         <p className="text-sm text-gray-500 font-sans max-w-sm">
-          Please do not refresh the page or click back. We are confirming your payment with Cashfree.
+          Please do not refresh the page or click back. We are confirming your order details.
         </p>
       </div>
     );
@@ -77,7 +77,7 @@ function OrderVerifyContent() {
           Order Placed Successfully!
         </h2>
         <p className="text-xs font-sans text-emerald-700 bg-emerald-50/50 border border-emerald-100 px-3.5 py-1.5 rounded-full mb-6 inline-block font-semibold">
-          Payment Confirmed
+          Order Registered
         </p>
         <div className="w-full bg-white rounded-xl border border-brand-cream-text/15 p-5 text-left mb-8 shadow-lg space-y-3 font-sans text-xs">
           <div className="flex justify-between pb-2 border-b border-brand-cream-dark">
@@ -85,12 +85,12 @@ function OrderVerifyContent() {
             <span className="font-mono font-bold text-brand-blue-deep">{orderId}</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-gray-400">Status:</span>
-            <span className="font-bold text-emerald-600 uppercase">Paid</span>
+            <span className="text-gray-400">Payment Status:</span>
+            <span className="font-bold text-amber-600 uppercase">{details?.paymentStatus || 'Pending'}</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-gray-400">Method:</span>
-            <span className="font-medium text-gray-700">Cashfree PG Secure Pay</span>
+            <span className="text-gray-400">Order Status:</span>
+            <span className="font-bold text-emerald-600 uppercase">{details?.orderStatus || 'Placed'}</span>
           </div>
         </div>
         <div className="flex flex-col sm:flex-row gap-4 w-full">

@@ -164,6 +164,7 @@ export default function CheckoutPage() {
         throw new Error(placeOrderData.message || 'Failed to place order');
       }
 
+      setLoading(false);
       return placeOrderData._id;
     } catch (err: any) {
       setErrorMsg(err.message || 'Failed to place order.');
@@ -300,7 +301,7 @@ export default function CheckoutPage() {
                   <div className="space-y-3">
                     {addresses.map((addr, idx) => (
                       <label
-                        key={addr._id}
+                        key={addr._id || idx}
                         className={`flex items-start space-x-3.5 p-4 border rounded-xl cursor-pointer transition-all duration-150 ${
                           selectedAddressIdx === idx
                             ? 'border-brand-cream-text bg-brand-cream/35'

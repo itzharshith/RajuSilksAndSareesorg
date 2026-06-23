@@ -3,15 +3,7 @@ import { auth } from '@/lib/auth';
 import { Order } from '@/lib/models/Order';
 import { Product } from '@/lib/models/Product';
 import { Coupon } from '@/lib/models/Coupon';
-import { Cashfree, CFEnvironment } from "cashfree-pg";
 
-// Initialize Cashfree SDK
-const cashfree = new Cashfree(
-  process.env.NEXT_PUBLIC_CASHFREE_MODE === "production" ? CFEnvironment.PRODUCTION : CFEnvironment.SANDBOX,
-  process.env.CASHFREE_APP_ID!,
-  process.env.CASHFREE_SECRET_KEY!
-);
-cashfree.XApiVersion = "2023-08-01";
 
 // ==========================================
 // GET: Fetch User Orders or Admin Dashboard
@@ -108,36 +100,16 @@ export async function POST(req: NextRequest) {
       couponApplied
     });
 
-    // 7. Initialize Cashfree PG Order Request
-    // We map cashfree's order_id to your database order._id string format
-    const orderRequest = {
-      order_amount: totalAmount.toString(),
-      order_currency: "INR",
-      order_id: order._id.toString(),
-      customer_details: {
-        customer_id: userId.toString(),
-        customer_name: customerName,
-        customer_email: customerEmail,
-        customer_phone: customerPhone || "9999999999", // Fallback placeholder if missing
-      },
-      order_meta: {
-        return_url: `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/order-verify?order_id={order_id}`,
-      },
-    };
-
-    const cfResponse = await cashfree.PGCreateOrder(orderRequest);
-
-    // 8. Return database order details along with Cashfree session keys
+    // 7. Return database order details
     return NextResponse.json({
       success: true,
-      orderId: order._id,
-      cfData: cfResponse.data
+      orderId: order._id
     }, { status: 201 });
 
   } catch (error: any) {
-    console.error("Order processing or Cashfree creation error:", error?.response?.data || error);
+    console.error("Order processing error:", error);
     return NextResponse.json(
-      { error: error?.response?.data?.message || error.message || "Failed to process payment gateway initialization" },
+      { error: error.message || "Failed to process order creation" },
       { status: 500 }
     );
   }
