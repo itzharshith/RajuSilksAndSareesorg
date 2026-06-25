@@ -12,6 +12,8 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  // Configure allowed dev origins to prevent HMR WebSocket connection block when accessed via tunnel URLs
+  allowedDevOrigins: ['*.lhr.life', '*.loca.lt', 'localhost:3000'],
 };
 
 export default nextConfig;
