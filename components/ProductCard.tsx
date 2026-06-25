@@ -2,7 +2,6 @@
 import Link from 'next/link';
 import { Heart, ShoppingCart, Star } from 'lucide-react';
 import { useCart } from './providers/CartProvider';
-import { GlassButton } from './ui/apple-tahoe-liquid-glass-button';
 
 interface Product {
   _id: string;
@@ -166,15 +165,13 @@ export default function ProductCard({ product }: { product: Product }) {
           </div>
 
           {product.stock > 0 ? (
-            <GlassButton
-              size="icon"
+            <button
               onClick={handleAddToCart}
-              glassColor="rgba(10, 37, 64, 0.95)"
-              className="text-white border border-brand-cream-text/20"
+              className="bg-brand-blue hover:bg-brand-blue-deep text-white p-2 rounded-full border border-brand-cream-text/20 hover:border-brand-cream-text transition-all duration-200"
               title="Add to Cart"
             >
               <ShoppingCart size={15} />
-            </GlassButton>
+            </button>
           ) : (
             <span className="text-[10px] text-red-700 bg-red-50 border border-red-200 px-2 py-1 rounded font-semibold uppercase tracking-wider">
               Out of Stock

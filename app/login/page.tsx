@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useSession, signIn } from 'next-auth/react';
 import { LogIn, Sparkles, Eye, EyeOff } from 'lucide-react';
-import { GlassButton } from '@/components/ui/apple-tahoe-liquid-glass-button';
 
 function LoginContent() {
   const { data: session, status } = useSession();
@@ -120,15 +119,14 @@ function LoginContent() {
               </div>
             </div>
 
-            <GlassButton
+            <button
               type="submit"
               disabled={loading}
-              glassColor="rgba(10, 37, 64, 0.95)"
-              className="w-full text-white font-sans font-semibold tracking-wider text-xs py-3 border border-brand-cream-text/20 shadow-md"
+              className="w-full bg-brand-blue hover:bg-brand-blue-deep text-white font-sans font-semibold tracking-wider text-xs py-3 rounded-lg flex items-center justify-center space-x-1.5 shadow-md border border-brand-cream-text/20 disabled:opacity-50"
             >
               <LogIn size={14} />
               <span>{loading ? 'AUTHENTICATING...' : 'SIGN IN'}</span>
-            </GlassButton>
+            </button>
           </form>
 
           <div className="text-center text-xs text-gray-500">

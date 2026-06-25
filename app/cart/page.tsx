@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useCart } from '@/components/providers/CartProvider';
 import { Trash2, ArrowRight, ShoppingCart, Ticket, X } from 'lucide-react';
-import { GlassButton } from '@/components/ui/apple-tahoe-liquid-glass-button';
 
 export default function CartPage() {
   const { 
@@ -261,14 +260,13 @@ export default function CartPage() {
                 </div>
               </div>
 
-              <GlassButton
+              <button
                 onClick={handleCheckout}
-                glassColor="rgba(10, 37, 64, 0.95)"
-                className="w-full text-white font-sans font-semibold tracking-wider text-xs py-3.5 border border-brand-cream-text/20 shadow-md"
+                className="w-full bg-brand-blue hover:bg-brand-blue-deep text-white font-sans font-semibold tracking-wider text-xs py-3.5 rounded-full flex items-center justify-center space-x-2 shadow-md transition-all duration-200 border border-brand-cream-text/20"
               >
                 <span>PROCEED TO CHECKOUT</span>
                 <ArrowRight size={14} />
-              </GlassButton>
+              </button>
             </div>
 
           </div>
@@ -286,14 +284,13 @@ export default function CartPage() {
               ₹{totalAmount.toLocaleString('en-IN')}
             </span>
           </div>
-          <GlassButton
+          <button
             onClick={handleCheckout}
-            glassColor="rgba(10, 37, 64, 0.95)"
-            className="text-white font-sans font-semibold tracking-wider text-[11px] px-6 py-2.5 border border-brand-cream-text/20"
+            className="bg-brand-blue hover:bg-brand-blue-deep text-white font-sans font-semibold tracking-wider text-[11px] px-6 py-2.5 rounded-full flex items-center justify-center space-x-1.5 border border-brand-cream-text/20"
           >
             <span>CHECKOUT</span>
             <ArrowRight size={12} />
-          </GlassButton>
+          </button>
         </div>
       )}
     </div>

@@ -5,7 +5,6 @@ import { useSession } from 'next-auth/react';
 import { useCart } from '@/components/providers/CartProvider';
 import { MapPin, Plus, CheckCircle } from 'lucide-react';
 import CheckoutButton from '@/components/CheckoutButton';
-import { GlassButton } from '@/components/ui/apple-tahoe-liquid-glass-button';
 
 interface Address {
   _id: string;
@@ -206,15 +205,13 @@ export default function CheckoutPage() {
                   Select Delivery Address
                 </span>
                 {!addingNewAddress && (
-                  <GlassButton
-                    size="sm"
+                  <button
                     onClick={() => setAddingNewAddress(true)}
-                    glassColor="rgba(10, 37, 64, 0.75)"
-                    className="!text-white text-xs"
+                    className="text-xs font-sans font-bold text-brand-blue hover:text-brand-cream-text flex items-center gap-1 uppercase transition-colors"
                   >
                     <Plus size={14} />
                     Add Address
-                  </GlassButton>
+                  </button>
                 )}
               </div>
 
@@ -289,15 +286,13 @@ export default function CheckoutPage() {
                     >
                       Cancel
                     </button>
-                    <GlassButton
+                    <button
                       type="submit"
-                      size="sm"
                       disabled={addressLoading}
-                      glassColor="rgba(10, 37, 64, 0.90)"
-                      className="!text-white"
+                      className="bg-brand-blue text-white text-xs font-bold px-5 py-2 rounded-lg border border-brand-cream-text/25"
                     >
                       {addressLoading ? 'Saving...' : 'Add Address'}
-                    </GlassButton>
+                    </button>
                   </div>
                 </form>
               ) : (
@@ -338,15 +333,12 @@ export default function CheckoutPage() {
                 ) : (
                   <div className="text-center py-8 border border-dashed border-brand-cream-text/20 rounded-lg">
                     <p className="text-xs text-gray-500 font-sans mb-4">No shipping addresses found in your profile.</p>
-                    <GlassButton
-                      size="sm"
+                    <button
                       onClick={() => setAddingNewAddress(true)}
-                      glassColor="rgba(10, 37, 64, 0.90)"
-                      className="!text-white"
+                      className="bg-brand-blue text-white text-xs font-bold px-6 py-2 rounded-full border border-brand-cream-text/25"
                     >
-                      <Plus size={14} />
                       Create First Address
-                    </GlassButton>
+                    </button>
                   </div>
                 )
               )}

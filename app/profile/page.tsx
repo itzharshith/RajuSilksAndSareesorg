@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { User as UserIcon, Key, MapPin, Plus, Trash2, Edit } from 'lucide-react';
-import { GlassButton } from '@/components/ui/apple-tahoe-liquid-glass-button';
 
 interface Address {
   _id: string;
@@ -292,14 +291,13 @@ export default function ProfilePage() {
                 </div>
               </div>
 
-              <GlassButton
+              <button
                 type="submit"
                 disabled={profileLoading}
-                glassColor="rgba(10, 37, 64, 0.90)"
-                className="w-full !text-white"
+                className="w-full bg-brand-blue hover:bg-brand-blue-deep text-white font-sans text-xs font-bold py-2.5 rounded-lg border border-brand-cream-text/25 transition-colors disabled:opacity-50"
               >
                 {profileLoading ? 'SAVING...' : 'UPDATE PROFILE'}
-              </GlassButton>
+              </button>
             </form>
           </div>
 
@@ -403,14 +401,12 @@ export default function ProfilePage() {
                   >
                     Cancel
                   </button>
-                  <GlassButton
+                  <button
                     type="submit"
-                    size="sm"
-                    glassColor="rgba(10, 37, 64, 0.90)"
-                    className="!text-white"
+                    className="bg-brand-blue text-white text-xs font-bold px-5 py-2 rounded-lg border border-brand-cream-text/25"
                   >
                     Save Address
-                  </GlassButton>
+                  </button>
                 </div>
               </form>
             ) : (
@@ -460,15 +456,12 @@ export default function ProfilePage() {
               ) : (
                 <div className="text-center py-10 border border-dashed border-brand-cream-text/20 rounded-lg">
                   <p className="text-xs text-gray-500 font-sans mb-3">No addresses found. Add an address to facilitate shopping checkouts.</p>
-                  <GlassButton
-                    size="sm"
+                  <button
                     onClick={() => setAddingAddress(true)}
-                    glassColor="rgba(10, 37, 64, 0.90)"
-                    className="!text-white"
+                    className="bg-brand-blue text-white text-xs font-bold px-5 py-2 rounded-full border border-brand-cream-text/25"
                   >
-                    <Plus size={14} />
                     Add Shipping Address
-                  </GlassButton>
+                  </button>
                 </div>
               )
             )}
