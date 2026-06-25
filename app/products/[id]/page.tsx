@@ -121,10 +121,9 @@ export default function ProductDetails({ params }: { params: Promise<{ id: strin
         _id: product._id,
         name: product.name,
         price: product.price,
-        image: product.images?.[0] || '',
+        images: product.images,
         stock: product.stock,
-        discount: product.discount,
-        quantity: quantity
+        discount: product.discount
       }, quantity);
       alert(`${quantity} item(s) added to cart.`);
     }
@@ -138,10 +137,9 @@ export default function ProductDetails({ params }: { params: Promise<{ id: strin
         _id: product._id,
         name: product.name,
         price: product.price,
-        image: product.images?.[0] || '',
+        images: product.images,
         stock: product.stock,
-        discount: product.discount,
-        quantity: 1
+        discount: product.discount
       });
     }
   };
