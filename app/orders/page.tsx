@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { ClipboardList, Calendar, DollarSign, Eye, X } from 'lucide-react';
+import { GlassButton } from '@/components/ui/apple-tahoe-liquid-glass-button';
 
 interface OrderItem {
   _id: string;
@@ -206,12 +207,14 @@ export default function OrderHistoryPage() {
 
             {/* Modal Footer */}
             <div className="bg-brand-cream/30 px-6 py-3 text-right border-t border-brand-cream-dark">
-              <button 
-                onClick={() => setSelectedOrder(null)} 
-                className="bg-brand-blue hover:bg-brand-blue-deep text-white text-xs font-semibold px-5 py-2 rounded-lg border border-brand-cream-text/20"
+              <GlassButton
+                size="sm"
+                onClick={() => setSelectedOrder(null)}
+                glassColor="rgba(10, 37, 64, 0.85)"
+                className="!text-white"
               >
                 Close details
-              </button>
+              </GlassButton>
             </div>
 
           </div>
@@ -281,13 +284,15 @@ export default function OrderHistoryPage() {
 
                 {/* View CTA */}
                 <div className="text-right">
-                  <button
+                  <GlassButton
+                    size="sm"
                     onClick={() => setSelectedOrder(order)}
-                    className="w-full md:w-auto bg-brand-cream hover:bg-brand-cream-text/15 text-brand-blue-deep text-xs font-bold py-2 px-4 rounded-lg border border-brand-cream-text/20 flex items-center justify-center gap-1.5 transition-colors"
+                    glassColor="rgba(10, 37, 64, 0.75)"
+                    className="w-full md:w-auto !text-white"
                   >
                     <Eye size={13} />
                     <span>View Details</span>
-                  </button>
+                  </GlassButton>
                 </div>
 
               </div>

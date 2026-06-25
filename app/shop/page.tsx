@@ -3,6 +3,7 @@ import React, { useState, useEffect, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import ProductCard from '@/components/ProductCard';
 import { SlidersHorizontal, RotateCcw, ChevronLeft, ChevronRight, X } from 'lucide-react';
+import { GlassButton } from '@/components/ui/apple-tahoe-liquid-glass-button';
 
 interface Category {
   _id: string;
@@ -290,16 +291,18 @@ function ShopContent() {
                   Showing <span className="font-semibold text-brand-blue-deep">{products.length}</span> of <span className="font-semibold text-brand-blue-deep">{totalProducts}</span> weavers creations
                 </span>
                 
-                <button
+                <GlassButton
+                  size="sm"
                   onClick={() => setMobileFiltersOpen(true)}
-                  className="lg:hidden bg-brand-cream hover:bg-brand-cream-text/20 text-brand-blue-deep text-xs font-semibold px-4 py-2 rounded-lg border border-brand-cream-text/20 flex items-center gap-1.5 transition-all duration-200"
+                  glassColor="rgba(10, 37, 64, 0.75)"
+                  className="lg:hidden !text-white"
                 >
                   <SlidersHorizontal size={14} />
                   <span>Filters</span>
                   {(selectedCategory || searchQuery || minPrice || maxPrice || featuredOnly || discountOnly) && (
-                    <span className="h-2 w-2 rounded-full bg-brand-blue-light animate-pulse"></span>
+                    <span className="h-2 w-2 rounded-full bg-brand-gold animate-pulse"></span>
                   )}
-                </button>
+                </GlassButton>
               </div>
 
               {/* Sorting dropdown */}
@@ -327,12 +330,14 @@ function ShopContent() {
               <div className="bg-white border border-brand-cream-text/15 rounded-xl p-16 text-center shadow-luxury">
                 <p className="font-serif italic text-brand-blue-deep text-lg mb-2">No masterworks found matching your filter selections.</p>
                 <p className="text-xs text-gray-500 mb-6">Try resetting the collection filters or searching for keywords.</p>
-                <button
+                <GlassButton
+                  size="sm"
                   onClick={handleResetFilters}
-                  className="bg-brand-blue hover:bg-brand-blue-deep text-white text-xs font-semibold px-6 py-2.5 rounded-full border border-brand-cream-text/20"
+                  glassColor="rgba(10, 37, 64, 0.90)"
+                  className="!text-white"
                 >
                   Clear All Filters
-                </button>
+                </GlassButton>
               </div>
             ) : (
               <>

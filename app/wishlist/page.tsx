@@ -3,6 +3,7 @@ import React from 'react';
 import Link from 'next/link';
 import { useCart, Product } from '@/components/providers/CartProvider';
 import { Heart, Trash2, ShoppingCart } from 'lucide-react';
+import { GlassButton } from '@/components/ui/apple-tahoe-liquid-glass-button';
 
 export default function WishlistPage() {
   const { wishlist, removeFromWishlist, addToCart } = useCart();
@@ -90,13 +91,14 @@ export default function WishlistPage() {
 
                     {/* Move to Cart */}
                     {product.stock > 0 ? (
-                      <button
+                      <GlassButton
                         onClick={() => handleMoveToCart(product)}
-                        className="w-full bg-brand-blue hover:bg-brand-blue-deep text-white font-sans text-xs font-semibold py-2 rounded-full border border-brand-cream-text/20 flex items-center justify-center space-x-1.5 transition-colors"
+                        glassColor="rgba(10, 37, 64, 0.90)"
+                        className="w-full !text-white"
                       >
                         <ShoppingCart size={13} />
                         <span>MOVE TO CART</span>
-                      </button>
+                      </GlassButton>
                     ) : (
                       <span className="text-center text-[10px] text-red-700 bg-red-50 border border-red-200 py-1.5 rounded uppercase font-semibold">
                         Out of Stock

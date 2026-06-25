@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import { Mail, Phone, MapPin, Clock, Send, ShieldCheck } from 'lucide-react';
+import { GlassButton } from '@/components/ui/apple-tahoe-liquid-glass-button';
 
 export default function ContactPage() {
   const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });
@@ -135,13 +136,14 @@ export default function ContactPage() {
               ></textarea>
             </div>
 
-            <button
+            <GlassButton
               type="submit"
-              className="bg-brand-blue text-brand-cream font-serif uppercase tracking-wider text-sm font-semibold px-6 py-3 rounded hover:bg-brand-blue-light transition-all flex items-center space-x-2"
+              glassColor="rgba(10, 37, 64, 0.92)"
+              className="!text-white"
             >
               <span>Submit Inquiry</span>
               <Send size={14} />
-            </button>
+            </GlassButton>
           </form>
         </div>
       </div>
