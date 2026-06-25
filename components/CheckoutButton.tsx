@@ -1,6 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import { ShieldCheck, Loader2 } from 'lucide-react';
+import { GlassButton } from '@/components/ui/apple-tahoe-liquid-glass-button';
 
 interface CheckoutButtonProps {
   amount: number;
@@ -113,11 +114,12 @@ export default function CheckoutButton({
         </p>
       )}
 
-      <button
+      <GlassButton
         id="cashfree-checkout-btn"
         onClick={handleCheckout}
         disabled={disabled || loading}
-        className="w-full bg-brand-blue hover:bg-brand-blue-deep text-white font-sans font-semibold tracking-wider text-xs py-3.5 rounded-full flex items-center justify-center gap-2 shadow-md transition-all duration-200 border border-brand-cream-text/20 disabled:opacity-50 disabled:cursor-not-allowed"
+        glassColor="rgba(10, 37, 64, 0.95)"
+        className="w-full text-white font-sans font-semibold tracking-wider text-xs py-3.5 border border-brand-cream-text/20 shadow-md"
       >
         {loading ? (
           <>
@@ -130,7 +132,7 @@ export default function CheckoutButton({
             <span>PROCEED TO PAY</span>
           </>
         )}
-      </button>
+      </GlassButton>
 
       <p className="text-center text-[10px] text-gray-400 font-sans">
         🔒 Secured by{' '}

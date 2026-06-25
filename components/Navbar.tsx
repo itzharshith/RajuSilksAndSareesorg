@@ -4,6 +4,7 @@ import { useSession, signOut } from 'next-auth/react';
 import { useCart } from './providers/CartProvider';
 import { useState } from 'react';
 import { ShoppingBag, Heart, User, Menu, X, LogOut, Settings, Package } from 'lucide-react';
+import { GlassButton } from '@/components/ui/apple-tahoe-liquid-glass-button';
 
 export default function Navbar() {
   const { data: session } = useSession();
@@ -78,8 +79,14 @@ export default function Navbar() {
                 )}
               </div>
             ) : (
-              <Link href="/login" className="px-4 py-2 bg-brand-cream-text text-brand-blue text-sm font-semibold rounded-lg hover:bg-white transition-colors">
-                Sign In
+              <Link href="/login">
+                <GlassButton
+                  size="sm"
+                  glassColor="rgba(245, 230, 200, 0.20)"
+                  className="!text-brand-cream-text hover:!text-white"
+                >
+                  Sign In
+                </GlassButton>
               </Link>
             )}
 
