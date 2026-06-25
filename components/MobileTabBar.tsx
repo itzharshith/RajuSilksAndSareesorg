@@ -7,7 +7,7 @@ import { Home, Search, Heart, ShoppingBag, User } from 'lucide-react';
 
 export default function MobileTabBar() {
   const { data: session } = useSession();
-  const { cartCount, wishlist } = useCart();
+  const { cartCount = 0, wishlist = [] } = useCart() || {};
   const pathname = usePathname() || '';
 
   const isActive = (path: string) => {
@@ -32,13 +32,13 @@ export default function MobileTabBar() {
       label: 'Wishlist',
       path: '/wishlist',
       icon: Heart,
-      badge: wishlist.length,
+      badge: wishlist?.length || 0,
     },
     {
       label: 'Cart',
       path: '/cart',
       icon: ShoppingBag,
-      badge: cartCount,
+      badge: cartCount || 0,
     },
     {
       label: 'Account',
@@ -48,45 +48,47 @@ export default function MobileTabBar() {
   ];
 
   return (
-    <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-brand-blue-deep/90 backdrop-blur-md border-t border-brand-cream-text/25 shadow-[0_-5px_15px_rgba(7,17,30,0.3)] pb-safe">
-      <div className="flex justify-around items-center h-16 max-w-md mx-auto px-4">
+    <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-brand-blue-deep/95 backdrop-blur-lg border-t border-brand-gold/20 shadow-[0_-8px_30px_rgba(7,17,30,0.4)] pb-safe">
+      <div className="flex justify-around items-center h-16 max-w-lg mx-auto px-2">
         {navItems.map((item) => {
-          const ActiveIcon = item.icon;
+          const Icon = item.icon;
           const active = isActive(item.path);
 
           return (
             <Link
               key={item.label}
               href={item.path}
-              className="flex flex-col items-center justify-center flex-1 h-full relative transition-all duration-200"
+              className={`flex flex-col items-center justify-center flex-1 py-1 px-2.5 rounded-2xl transition-all duration-300 relative ${
+                active 
+                  ? 'bg-brand-gold/10 text-brand-gold scale-105' 
+                  : 'text-brand-cream-text/60 hover:text-brand-cream-text hover:bg-brand-cream-text/5'
+              }`}
             >
-              <div className={`p-1.5 rounded-full transition-all duration-300 relative ${
-                active ? 'text-brand-cream-text scale-110' : 'text-gray-400 hover:text-brand-cream-text/70'
-              }`}>
-                <ActiveIcon size={20} className={active ? 'stroke-[2.5px]' : 'stroke-[1.8px]'} />
+              <div className="relative flex items-center justify-center p-0.5">
+                <Icon 
+                  size={24} 
+                  className={`transition-all duration-300 ${
+                    active ? 'stroke-[2.2px] drop-shadow-[0_0_8px_rgba(212,175,55,0.4)]' : 'stroke-[1.8px]'
+                  }`} 
+                />
                 
                 {/* Badges */}
-                {item.badge !== undefined && item.badge > 0 && (
-                  <span className={`absolute -top-1 -right-1.5 font-bold text-[9px] h-4 w-4 rounded-full flex items-center justify-center border ${
-                    item.label === 'Cart' 
-                      ? 'bg-brand-cream-text text-brand-blue-deep border-brand-blue-deep' 
-                      : 'bg-red-600 text-white border-brand-blue-deep'
+                {item.badge !== undefined && item.badge > 0 ? (
+                  <span className={`absolute -top-1.5 -right-2 font-sans font-bold text-[9px] h-4.5 w-4.5 rounded-full flex items-center justify-center border shadow-sm transition-all duration-300 ${
+                    active 
+                      ? 'bg-brand-cream text-brand-blue-deep border-brand-gold' 
+                      : 'bg-brand-gold text-brand-blue-deep border-brand-blue-deep'
                   }`}>
                     {item.badge}
                   </span>
-                )}
+                ) : null}
               </div>
               
-              <span className={`text-[9px] tracking-wider font-sans font-semibold mt-0.5 uppercase transition-colors ${
-                active ? 'text-brand-cream-text font-bold' : 'text-gray-500'
+              <span className={`text-[10px] tracking-widest font-sans font-semibold mt-1 uppercase transition-colors duration-300 ${
+                active ? 'text-brand-gold font-bold' : 'text-brand-cream-text/50'
               }`}>
                 {item.label}
               </span>
-
-              {/* Active gold dot */}
-              {active && (
-                <span className="absolute bottom-1 w-1 h-1 rounded-full bg-brand-cream-text animate-fade-in" />
-              )}
             </Link>
           );
         })}

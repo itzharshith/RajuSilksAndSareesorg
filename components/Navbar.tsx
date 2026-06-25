@@ -3,12 +3,11 @@ import Link from 'next/link';
 import { useSession, signOut } from 'next-auth/react';
 import { useCart } from './providers/CartProvider';
 import { useState } from 'react';
-import { ShoppingBag, Heart, User, Menu, X, LogOut, Settings, Package } from 'lucide-react';
+import { ShoppingBag, Heart, User, LogOut, Settings, Package } from 'lucide-react';
 
 export default function Navbar() {
   const { data: session } = useSession();
   const { cartCount } = useCart();
-  const [menuOpen, setMenuOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
 
   const navLinks = [
@@ -38,21 +37,25 @@ export default function Navbar() {
           </div>
 
           {/* Right Actions */}
-          <div className="flex items-center gap-3">
-            <Link href="/wishlist" className="p-2 text-brand-cream-text hover:text-white transition-colors">
+          <div className="flex items-center gap-1 md:gap-3">
+            {/* Wishlist - hidden on mobile since it is in the bottom tab bar */}
+            <Link href="/wishlist" className="hidden md:flex p-2 text-brand-cream-text hover:text-white transition-colors">
               <Heart size={20} />
             </Link>
-            <Link href="/cart" className="relative p-2 text-brand-cream-text hover:text-white transition-colors">
-              <ShoppingBag size={20} />
+
+            {/* Cart - larger touch target on mobile */}
+            <Link href="/cart" className="relative h-11 w-11 flex items-center justify-center text-brand-cream-text hover:text-white transition-colors" aria-label="Shopping Cart">
+              <ShoppingBag size={22} className="md:w-[20px] md:h-[20px]" />
               {cartCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-brand-gold text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                <span className="absolute top-1 right-1 bg-brand-gold text-brand-blue-deep text-[10px] font-extrabold rounded-full w-5 h-5 flex items-center justify-center border-2 border-brand-blue animate-scale-up">
                   {cartCount}
                 </span>
               )}
             </Link>
 
+            {/* User Account / Sign In - hidden on mobile since it is in the bottom tab bar */}
             {session ? (
-              <div className="relative">
+              <div className="relative hidden md:block">
                 <button onClick={() => setUserMenuOpen(!userMenuOpen)} className="flex items-center gap-2 p-2 text-brand-cream-text hover:text-white transition-colors">
                   <User size={20} />
                   <span className="hidden md:block text-sm">{session.user?.name?.split(' ')[0]}</span>
@@ -78,28 +81,13 @@ export default function Navbar() {
                 )}
               </div>
             ) : (
-              <Link href="/login" className="px-4 py-2 bg-brand-cream-text text-brand-blue text-sm font-semibold rounded-lg hover:bg-white transition-colors">
+              <Link href="/login" className="hidden md:block px-4 py-2 bg-brand-cream-text text-brand-blue text-sm font-semibold rounded-lg hover:bg-white transition-colors">
                 Sign In
               </Link>
             )}
-
-            <button className="md:hidden p-2 text-brand-cream-text" onClick={() => setMenuOpen(!menuOpen)}>
-              {menuOpen ? <X size={20} /> : <Menu size={20} />}
-            </button>
           </div>
         </div>
       </div>
-
-      {/* Mobile Menu */}
-      {menuOpen && (
-        <div className="md:hidden bg-brand-blue-dark border-t border-brand-blue-dark px-4 py-4 space-y-3">
-          {navLinks.map(link => (
-            <Link key={link.href} href={link.href} className="block text-brand-cream-text hover:text-white text-sm font-medium py-2" onClick={() => setMenuOpen(false)}>
-              {link.label}
-            </Link>
-          ))}
-        </div>
-      )}
     </nav>
   );
 }

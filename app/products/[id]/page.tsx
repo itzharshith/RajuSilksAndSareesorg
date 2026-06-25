@@ -201,7 +201,7 @@ export default function ProductDetails({ params }: { params: Promise<{ id: strin
   return (
     <div className="bg-brand-cream min-h-screen pt-12 pb-28 md:pb-12 font-sans">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         {/* Breadcrumbs */}
         <div className="text-xs text-gray-500 mb-8 flex items-center space-x-1.5 font-sans">
           <Link href="/" className="hover:text-brand-cream-text">Home</Link>
@@ -215,10 +215,10 @@ export default function ProductDetails({ params }: { params: Promise<{ id: strin
 
         {/* Product core structure */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 bg-white rounded-xl border border-brand-cream-text/15 p-6 md:p-8 shadow-luxury mb-12">
-          
+
           {/* Left Column: Image Previews */}
           <div className="space-y-4">
-            
+
             {/* Active Display */}
             <div className="aspect-[4/5] bg-brand-cream rounded-lg overflow-hidden border border-brand-cream-text/10 relative">
               {product.images && product.images[activeImageIdx] ? (
@@ -251,9 +251,8 @@ export default function ProductDetails({ params }: { params: Promise<{ id: strin
                   <button
                     key={idx}
                     onClick={() => setActiveImageIdx(idx)}
-                    className={`h-20 w-16 bg-brand-cream rounded overflow-hidden border-2 shrink-0 transition-all duration-150 ${
-                      activeImageIdx === idx ? 'border-brand-cream-text shadow-md' : 'border-transparent opacity-75 hover:opacity-100'
-                    }`}
+                    className={`h-20 w-16 bg-brand-cream rounded overflow-hidden border-2 shrink-0 transition-all duration-150 ${activeImageIdx === idx ? 'border-brand-cream-text shadow-md' : 'border-transparent opacity-75 hover:opacity-100'
+                      }`}
                   >
                     <img src={img} alt="Thumbnail" className="w-full h-full object-cover" />
                   </button>
@@ -267,7 +266,7 @@ export default function ProductDetails({ params }: { params: Promise<{ id: strin
           <div className="flex flex-col justify-between">
             <div className="space-y-5">
               <span className="text-xs text-brand-cream-text font-sans tracking-widest font-bold uppercase">{product.category?.name}</span>
-              
+
               <h1 className="font-serif font-bold text-2xl sm:text-3xl text-brand-blue-deep leading-tight">
                 {product.name}
               </h1>
@@ -386,11 +385,10 @@ export default function ProductDetails({ params }: { params: Promise<{ id: strin
               {/* Wishlist toggle */}
               <button
                 onClick={handleWishlistToggle}
-                className={`w-full py-2.5 rounded-full border text-xs font-semibold tracking-wider flex items-center justify-center space-x-2 transition-all duration-150 ${
-                  isSaved
+                className={`w-full py-2.5 rounded-full border text-xs font-semibold tracking-wider flex items-center justify-center space-x-2 transition-all duration-150 ${isSaved
                     ? 'bg-brand-blue/5 border-brand-blue text-brand-blue-deep'
                     : 'bg-white border-brand-cream-text/20 text-gray-700 hover:border-brand-cream-text'
-                }`}
+                  }`}
               >
                 <Heart size={14} fill={isSaved ? '#721c24' : 'none'} />
                 <span>{isSaved ? 'REMOVE FROM WISHLIST' : 'ADD TO WISHLIST'}</span>

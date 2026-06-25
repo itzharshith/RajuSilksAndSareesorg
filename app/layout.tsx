@@ -5,6 +5,7 @@ import { AuthProvider } from '@/components/providers/AuthProvider';
 import { CartProvider } from '@/components/providers/CartProvider';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import MobileTabBar from '@/components/MobileTabBar';
 
 const cinzel = Cinzel({ subsets: ['latin'], variable: '--font-cinzel', weight: ['400', '600', '700'] });
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
@@ -25,7 +26,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <AuthProvider>
           <CartProvider>
             <Navbar />
-            <main className="min-h-screen">{children}</main>
+            <main className="min-h-screen pb-16 lg:pb-0">{children}</main>
+            <MobileTabBar />
             <Footer />
           </CartProvider>
         </AuthProvider>

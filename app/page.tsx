@@ -101,30 +101,30 @@ export default function Home() {
       {/* 1. Hero Luxury Banner */}
       <section className="relative bg-gradient-to-r from-brand-blue-deep via-brand-blue to-brand-blue-dark text-white overflow-hidden border-b border-brand-cream-text/30">
         <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#D4AF37_1px,transparent_1px)] [background-size:16px_16px]"></div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28 relative z-10 flex flex-col items-center text-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-28 relative z-10 flex flex-col items-center text-center">
           <div className="inline-flex items-center space-x-1.5 bg-brand-cream-text/10 border border-brand-cream-text/30 px-3 py-1 rounded-full text-brand-cream-text text-xs tracking-widest uppercase mb-6 animate-pulse">
             <Sparkles size={12} />
             <span>Master Weavers of Heritage Silks</span>
           </div>
           
-          <h1 className="font-serif font-bold text-4xl sm:text-6xl lg:text-7xl text-brand-cream tracking-wide leading-tight max-w-4xl">
+          <h1 className="font-serif font-bold text-3xl sm:text-6xl lg:text-7xl text-brand-cream tracking-wide leading-tight max-w-4xl">
             Where Every Thread Tells a <span className="text-brand-cream-text">Royal Story</span>
           </h1>
           
-          <p className="mt-6 text-sm sm:text-base text-brand-cream/80 max-w-2xl font-sans tracking-wide leading-relaxed">
+          <p className="mt-4 sm:mt-6 text-xs sm:text-base text-brand-cream/80 max-w-2xl font-sans tracking-wide leading-relaxed">
             Discover a curated universe of authentic handloom silk sarees, crafted with absolute purity and generations of weaver heritage. Bring home the eternal glow of traditional weave art.
           </p>
           
-          <div className="mt-10 flex flex-col sm:flex-row gap-4 items-center justify-center">
+          <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row gap-3 sm:gap-4 items-center justify-center w-full max-w-[280px] sm:max-w-none">
             <Link
               href="/shop"
-              className="bg-brand-cream-text hover:bg-white text-brand-blue-deep font-sans font-semibold tracking-wider text-xs px-8 py-3.5 rounded-full shadow-lg hover:shadow-2xl transition-all duration-200"
+              className="bg-brand-cream-text hover:bg-white text-brand-blue-deep font-sans font-semibold tracking-wider text-xs px-8 py-3.5 rounded-full shadow-lg hover:shadow-2xl transition-all duration-200 w-full sm:w-auto text-center"
             >
               EXPLORE COLLECTIONS
             </Link>
             <Link
               href="/shop?category=Kanjeevaram%20Silks"
-              className="bg-transparent hover:bg-brand-cream-text/10 text-brand-cream-text font-sans font-semibold border border-brand-cream-text/50 hover:border-brand-cream-text text-xs px-8 py-3.5 rounded-full transition-all duration-200"
+              className="hidden sm:inline-block bg-transparent hover:bg-brand-cream-text/10 text-brand-cream-text font-sans font-semibold border border-brand-cream-text/50 hover:border-brand-cream-text text-xs px-8 py-3.5 rounded-full transition-all duration-200"
             >
               KANJEEVARAM EXCLUSIVES
             </Link>
@@ -133,26 +133,24 @@ export default function Home() {
       </section>
 
       {/* 2. Shop By Category */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="text-center mb-10">
-          <h2 className="font-serif font-bold text-2xl sm:text-3xl text-brand-blue-deep tracking-wider">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+        <div className="text-center mb-8">
+          <h2 className="font-serif font-bold text-xl sm:text-3xl text-brand-blue-deep tracking-wider">
             Shop By Heritage Category
           </h2>
-          <div className="h-0.5 w-24 bg-brand-cream-text mx-auto mt-2"></div>
+          <div className="h-0.5 w-16 sm:w-24 bg-brand-cream-text mx-auto mt-2"></div>
         </div>
 
-        {/* Mobile horizontal category scroller */}
-        <div className="flex lg:hidden overflow-x-auto gap-4 pb-4 px-2 snap-x snap-mandatory">
+        {/* Mobile horizontal category scroller - elegant pills */}
+        <div className="flex lg:hidden overflow-x-auto gap-3 pb-4 px-2 snap-x snap-mandatory no-scrollbar">
           {categories.map((cat) => (
             <Link
               key={cat._id}
               href={`/shop?category=${encodeURIComponent(cat.name)}`}
-              className="snap-start shrink-0 flex flex-col items-center justify-center text-center w-24 bg-white rounded-xl border border-brand-cream-text/15 p-3.5 shadow-sm active:border-brand-cream-text"
+              className="snap-start shrink-0 flex items-center space-x-2 bg-white rounded-full border border-brand-cream-text/20 px-4 py-2.5 shadow-sm active:border-brand-gold transition-colors whitespace-nowrap"
             >
-              <div className="h-12 w-12 rounded-full bg-brand-blue-deep/5 border border-brand-cream-text/20 flex items-center justify-center mb-2 text-brand-blue font-serif font-bold text-sm">
-                {cat.name[0]}
-              </div>
-              <span className="font-sans font-medium text-[10px] text-brand-blue-deep line-clamp-2 leading-tight">
+              <span className="inline-block h-2 w-2 rounded-full bg-brand-gold animate-pulse"></span>
+              <span className="font-sans font-bold text-[10px] text-brand-blue-deep tracking-wider uppercase">
                 {cat.name}
               </span>
             </Link>
@@ -180,25 +178,25 @@ export default function Home() {
 
       {/* 3. Featured Products */}
       {featuredProducts.length > 0 && (
-        <section className="border-t border-brand-cream-text/15 bg-white py-16">
+        <section className="border-t border-brand-cream-text/15 bg-white py-12 sm:py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-between mb-10">
+            <div className="flex items-center justify-between mb-8">
               <div>
-                <h2 className="font-serif font-bold text-2xl sm:text-3xl text-brand-blue-deep tracking-wider">
+                <h2 className="font-serif font-bold text-xl sm:text-3xl text-brand-blue-deep tracking-wider">
                   Featured Masterpieces
                 </h2>
-                <p className="text-xs text-gray-500 mt-1">Exquisite signature selections from our looms</p>
+                <p className="text-[10px] sm:text-xs text-gray-500 mt-1">Exquisite signature selections from our looms</p>
               </div>
               <Link
                 href="/shop?featured=true"
-                className="flex items-center space-x-1.5 text-brand-blue hover:text-brand-cream-text font-sans font-semibold text-xs tracking-wider transition-colors"
+                className="flex items-center space-x-1 text-brand-blue hover:text-brand-cream-text font-sans font-semibold text-[10px] sm:text-xs tracking-wider transition-colors"
               >
                 <span>VIEW ALL</span>
-                <ArrowRight size={14} />
+                <ArrowRight size={12} className="sm:w-[14px] sm:h-[14px]" />
               </Link>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
               {featuredProducts.map((prod) => (
                 <ProductCard key={prod._id} product={prod} />
               ))}
@@ -208,11 +206,11 @@ export default function Home() {
       )}
 
       {/* 4. Luxury Image Mid-Banner */}
-      <section className="bg-brand-blue-deep border-y border-brand-cream-text/30 text-white py-12 relative overflow-hidden">
+      <section className="bg-brand-blue-deep border-y border-brand-cream-text/30 text-white py-10 sm:py-12 relative overflow-hidden">
         <div className="absolute inset-0 opacity-5 bg-[radial-gradient(#D4AF37_1px,transparent_1px)] [background-size:16px_16px]"></div>
         <div className="max-w-4xl mx-auto px-4 text-center relative z-10">
-          <span className="font-serif italic text-brand-cream-text text-lg tracking-widest block mb-2">~ Traditional Weaving Inheritance ~</span>
-          <p className="font-serif font-bold text-xl sm:text-2xl text-brand-cream max-w-2xl mx-auto leading-relaxed italic">
+          <span className="font-serif italic text-brand-cream-text text-sm sm:text-lg tracking-widest block mb-2">~ Traditional Weaving Inheritance ~</span>
+          <p className="font-serif font-bold text-base sm:text-2xl text-brand-cream max-w-2xl mx-auto leading-relaxed italic">
             "A saree is not just an attire. It is a canvas of heritage, woven with threads of nostalgia, gold, and absolute pride."
           </p>
           <div className="h-px w-16 bg-brand-cream-text/40 mx-auto mt-4"></div>
@@ -221,24 +219,24 @@ export default function Home() {
 
       {/* 5. New Arrivals */}
       {newArrivals.length > 0 && (
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <div className="flex items-center justify-between mb-10">
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+          <div className="flex items-center justify-between mb-8">
             <div>
-              <h2 className="font-serif font-bold text-2xl sm:text-3xl text-brand-blue-deep tracking-wider">
+              <h2 className="font-serif font-bold text-xl sm:text-3xl text-brand-blue-deep tracking-wider">
                 Fresh From the Looms
               </h2>
-              <p className="text-xs text-gray-500 mt-1">Our latest creations freshly listed for you</p>
+              <p className="text-[10px] sm:text-xs text-gray-500 mt-1">Our latest creations freshly listed for you</p>
             </div>
             <Link
               href="/shop"
-              className="flex items-center space-x-1.5 text-brand-blue hover:text-brand-cream-text font-sans font-semibold text-xs tracking-wider transition-colors"
+              className="flex items-center space-x-1 text-brand-blue hover:text-brand-cream-text font-sans font-semibold text-[10px] sm:text-xs tracking-wider transition-colors"
             >
               <span>VIEW ALL</span>
-              <ArrowRight size={14} />
+              <ArrowRight size={12} className="sm:w-[14px] sm:h-[14px]" />
             </Link>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
             {newArrivals.map((prod) => (
               <ProductCard key={prod._id} product={prod} />
             ))}
@@ -247,52 +245,53 @@ export default function Home() {
       )}
 
       {/* 6. Brand Assurances */}
-      <section className="bg-white border-t border-brand-cream-text/15 py-14">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="flex items-start space-x-4">
-            <div className="bg-brand-cream p-3 rounded-lg text-brand-blue border border-brand-cream-text/20">
+      <section className="bg-white border-t border-brand-cream-text/15 py-12 sm:py-14">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+          <div className="flex items-start space-x-4 p-4 bg-brand-cream/30 rounded-xl md:bg-transparent md:p-0 border border-brand-cream-text/10 md:border-none shadow-sm md:shadow-none">
+            <div className="bg-brand-cream p-3 rounded-lg text-brand-blue border border-brand-cream-text/20 shrink-0">
               <Award size={24} />
             </div>
             <div>
-              <h3 className="font-serif font-bold text-base text-brand-blue-deep">Silk Mark Certified</h3>
-              <p className="text-xs text-gray-500 mt-1 leading-relaxed">Each pure silk saree is accompanied by a certificate and holographic identification marking to assure its pure composition.</p>
+              <h3 className="font-serif font-bold text-sm sm:text-base text-brand-blue-deep">Silk Mark Certified</h3>
+              <p className="text-[11px] sm:text-xs text-gray-500 mt-1 leading-relaxed">Each pure silk saree is accompanied by a certificate and holographic identification marking to assure its pure composition.</p>
             </div>
           </div>
-          <div className="flex items-start space-x-4">
-            <div className="bg-brand-cream p-3 rounded-lg text-brand-blue border border-brand-cream-text/20">
+          <div className="flex items-start space-x-4 p-4 bg-brand-cream/30 rounded-xl md:bg-transparent md:p-0 border border-brand-cream-text/10 md:border-none shadow-sm md:shadow-none">
+            <div className="bg-brand-cream p-3 rounded-lg text-brand-blue border border-brand-cream-text/20 shrink-0">
               <ShieldCheck size={24} />
             </div>
             <div>
-              <h3 className="font-serif font-bold text-base text-brand-blue-deep">Secure Razorpay Gateway</h3>
-              <p className="text-xs text-gray-500 mt-1 leading-relaxed">Enjoy smooth payments through secure tokenised mock systems. Rest easy knowing transactions are handled safely.</p>
+              <h3 className="font-serif font-bold text-sm sm:text-base text-brand-blue-deep">Secure Razorpay Gateway</h3>
+              <p className="text-[11px] sm:text-xs text-gray-500 mt-1 leading-relaxed">Enjoy smooth payments through secure tokenised mock systems. Rest easy knowing transactions are handled safely.</p>
             </div>
           </div>
-          <div className="flex items-start space-x-4">
-            <div className="bg-brand-cream p-3 rounded-lg text-brand-blue border border-brand-cream-text/20">
+          <div className="flex items-start space-x-4 p-4 bg-brand-cream/30 rounded-xl md:bg-transparent md:p-0 border border-brand-cream-text/10 md:border-none shadow-sm md:shadow-none">
+            <div className="bg-brand-cream p-3 rounded-lg text-brand-blue border border-brand-cream-text/20 shrink-0">
               <HeartHandshake size={24} />
             </div>
             <div>
-              <h3 className="font-serif font-bold text-base text-brand-blue-deep">Support Weaving Communities</h3>
-              <p className="text-xs text-gray-500 mt-1 leading-relaxed">By buying from Raju Silks, you contribute directly to supporting traditional handloom artisans and preserving their ancestral skills.</p>
+              <h3 className="font-serif font-bold text-sm sm:text-base text-brand-blue-deep">Support Weaving Communities</h3>
+              <p className="text-[11px] sm:text-xs text-gray-500 mt-1 leading-relaxed">By buying from Raju Silks, you contribute directly to supporting traditional handloom artisans and preserving their ancestral skills.</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* 7. Testimonials */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-brand-cream-text/15">
-        <div className="text-center mb-12">
-          <h2 className="font-serif font-bold text-2xl sm:text-3xl text-brand-blue-deep tracking-wider">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 border-t border-brand-cream-text/15">
+        <div className="text-center mb-10">
+          <h2 className="font-serif font-bold text-xl sm:text-3xl text-brand-blue-deep tracking-wider">
             Voices of Patronage
           </h2>
-          <div className="h-0.5 w-24 bg-brand-cream-text mx-auto mt-2"></div>
+          <div className="h-0.5 w-16 sm:w-24 bg-brand-cream-text mx-auto mt-2"></div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Mobile-first horizontal scroll snap carousel / Desktop grid */}
+        <div className="flex md:grid md:grid-cols-3 overflow-x-auto md:overflow-x-visible gap-4 md:gap-6 pb-6 md:pb-0 px-2 md:px-0 snap-x snap-mandatory no-scrollbar">
           {testimonials.map((t, idx) => (
-            <div key={idx} className="bg-white border border-brand-cream-text/15 p-6 rounded-lg shadow-luxury relative flex flex-col justify-between">
+            <div key={idx} className="snap-start shrink-0 w-[290px] md:w-auto bg-white border border-brand-cream-text/15 p-5 sm:p-6 rounded-lg shadow-luxury relative flex flex-col justify-between">
               <Quote className="absolute top-4 right-4 text-brand-cream-dark h-8 w-8 -z-0 opacity-40" />
-              <p className="text-xs text-gray-600 leading-relaxed italic relative z-10 font-sans mb-4">
+              <p className="text-xs text-gray-600 leading-relaxed italic relative z-10 font-sans mb-4 min-h-[90px] md:min-h-0">
                 "{t.quote}"
               </p>
               <div className="border-t border-brand-cream-dark pt-3">
