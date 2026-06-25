@@ -5,7 +5,6 @@ import { useSession } from 'next-auth/react';
 import { useCart } from '@/components/providers/CartProvider';
 import ProductCard from '@/components/ProductCard';
 import { Star, ShieldCheck, Truck, RefreshCw, ShoppingCart, Heart, Send } from 'lucide-react';
-import { GlassButton } from '@/components/ui/apple-tahoe-liquid-glass-button';
 
 interface Review {
   _id: string;
@@ -376,26 +375,28 @@ export default function ProductDetails({ params }: { params: Promise<{ id: strin
                   </div>
 
                   {/* Add to cart button */}
-                  <GlassButton
+                  <button
                     onClick={handleAddToCart}
-                    glassColor="rgba(10, 37, 64, 0.92)"
-                    className="flex-1 !text-white"
+                    className="flex-1 bg-brand-blue hover:bg-brand-blue-deep text-white font-sans font-semibold tracking-wider text-xs py-3 rounded-full flex items-center justify-center space-x-2 shadow-md transition-all duration-200 border border-brand-cream-text/20"
                   >
                     <ShoppingCart size={15} />
                     <span>ADD TO CART</span>
-                  </GlassButton>
+                  </button>
                 </div>
               )}
 
               {/* Wishlist toggle */}
-              <GlassButton
+              <button
                 onClick={handleWishlistToggle}
-                glassColor={isSaved ? 'rgba(114, 28, 36, 0.15)' : 'rgba(200, 185, 160, 0.20)'}
-                className="w-full !text-brand-blue-deep"
+                className={`w-full py-2.5 rounded-full border text-xs font-semibold tracking-wider flex items-center justify-center space-x-2 transition-all duration-150 ${
+                  isSaved
+                    ? 'bg-brand-blue/5 border-brand-blue text-brand-blue-deep'
+                    : 'bg-white border-brand-cream-text/20 text-gray-700 hover:border-brand-cream-text'
+                }`}
               >
                 <Heart size={14} fill={isSaved ? '#721c24' : 'none'} />
                 <span>{isSaved ? 'REMOVE FROM WISHLIST' : 'ADD TO WISHLIST'}</span>
-              </GlassButton>
+              </button>
             </div>
 
           </div>
@@ -479,15 +480,14 @@ export default function ProductDetails({ params }: { params: Promise<{ id: strin
                     />
                   </div>
 
-                  <GlassButton
+                  <button
                     type="submit"
                     disabled={reviewSubmitLoading}
-                    glassColor="rgba(10, 37, 64, 0.90)"
-                    className="w-full !text-white"
+                    className="w-full bg-brand-blue hover:bg-brand-blue-deep text-white font-sans font-semibold tracking-wider text-xs py-2 rounded-lg flex items-center justify-center space-x-1.5 disabled:opacity-50"
                   >
                     <Send size={12} />
                     <span>{reviewSubmitLoading ? 'SAVING...' : 'SUBMIT REVIEW'}</span>
-                  </GlassButton>
+                  </button>
                 </form>
               ) : (
                 <div className="text-center py-4">
@@ -530,15 +530,13 @@ export default function ProductDetails({ params }: { params: Promise<{ id: strin
         </div>
         <div className="flex gap-2">
           {product.stock > 0 ? (
-            <GlassButton
+            <button
               onClick={handleAddToCart}
-              size="sm"
-              glassColor="rgba(10, 37, 64, 0.92)"
-              className="!text-white"
+              className="bg-brand-blue hover:bg-brand-blue-deep text-white font-sans font-semibold tracking-wider text-[11px] px-5 py-2.5 rounded-full flex items-center justify-center space-x-1.5 border border-brand-cream-text/20"
             >
               <ShoppingCart size={13} />
               <span>ADD TO CART</span>
-            </GlassButton>
+            </button>
           ) : (
             <span className="text-[10px] text-red-700 bg-red-50 border border-red-200 px-3 py-2 rounded font-semibold uppercase">
               Out of Stock

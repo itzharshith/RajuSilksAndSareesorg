@@ -189,15 +189,13 @@ export default function CartPage() {
                       onChange={(e) => setCouponCodeInput(e.target.value)}
                       className="flex-1 text-xs bg-brand-cream/30 border border-brand-cream-text/15 rounded-lg py-2 px-3 focus:outline-none focus:border-brand-cream-text text-gray-800 uppercase"
                     />
-                    <GlassButton
+                    <button
                       type="submit"
-                      size="sm"
                       disabled={couponLoading}
-                      glassColor="rgba(10, 37, 64, 0.90)"
-                      className="!text-white"
+                      className="bg-brand-blue hover:bg-brand-blue-deep text-white font-sans text-xs font-bold px-4 py-2 rounded-lg border border-brand-cream-text/25"
                     >
                       {couponLoading ? '...' : 'APPLY'}
-                    </GlassButton>
+                    </button>
                   </div>
                   {couponError && <p className="text-[10px] font-semibold text-red-700">{couponError}</p>}
                 </form>

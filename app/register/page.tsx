@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useSession, signIn } from 'next-auth/react';
 import { UserPlus, Sparkles } from 'lucide-react';
-import { GlassButton } from '@/components/ui/apple-tahoe-liquid-glass-button';
 
 export default function RegisterPage() {
   const { data: session, status } = useSession();
@@ -151,15 +150,14 @@ export default function RegisterPage() {
               </div>
             </div>
 
-            <GlassButton
+            <button
               type="submit"
               disabled={loading}
-              glassColor="rgba(10, 37, 64, 0.92)"
-              className="w-full !text-white"
+              className="w-full bg-brand-blue hover:bg-brand-blue-deep text-white font-sans font-semibold tracking-wider text-xs py-3 rounded-lg flex items-center justify-center space-x-1.5 shadow-md border border-brand-cream-text/20 disabled:opacity-50"
             >
               <UserPlus size={14} />
               <span>{loading ? 'CREATING PATRON...' : 'REGISTER'}</span>
-            </GlassButton>
+            </button>
           </form>
 
           <div className="text-center text-xs text-gray-500 pt-2 border-t border-brand-cream-dark">
