@@ -5,7 +5,6 @@ import { AuthProvider } from '@/components/providers/AuthProvider';
 import { CartProvider } from '@/components/providers/CartProvider';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import MannequinWrapper from '@/components/MannequinWrapper';
 
 const cinzel = Cinzel({ subsets: ['latin'], variable: '--font-cinzel', weight: ['400', '600', '700'] });
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
@@ -22,16 +21,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
       </head>
-      <body style={{ position: 'relative' }}>
-        {/* 3D Kanchipuram silk mannequin — fixed background, scroll-reactive */}
-        <MannequinWrapper />
+      <body>
         <AuthProvider>
           <CartProvider>
-            <div style={{ position: 'relative', zIndex: 1 }}>
-              <Navbar />
-              <main className="min-h-screen">{children}</main>
-              <Footer />
-            </div>
+            <Navbar />
+            <main className="min-h-screen">{children}</main>
+            <Footer />
           </CartProvider>
         </AuthProvider>
       </body>
