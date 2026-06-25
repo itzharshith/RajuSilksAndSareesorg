@@ -38,7 +38,7 @@ export default function Footer() {
             </span>
           </div>
           <p className="text-xs text-brand-cream/60 leading-relaxed font-sans">
-            Draping generations in luxury since 1985. We showcase the pinnacle of ethnic Indian weave arts, handcrafting custom silks of unrivaled luxury and detail.
+            Draping generations in luxury since 1978. We showcase the pinnacle of ethnic Indian weave arts, handcrafting custom silks of unrivaled luxury and detail.
           </p>
           <div className="pt-2 flex items-center space-x-1 text-xs text-brand-cream-text bg-brand-blue/40 py-1.5 px-3 rounded border border-brand-cream-text/20 w-fit">
             <span>Verified Silk Mark Certified Store</span>

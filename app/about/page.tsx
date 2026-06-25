@@ -12,7 +12,7 @@ export default function AboutPage() {
         <section className="space-y-4">
           <h2 className="font-serif font-semibold text-2xl text-brand-blue uppercase">Our Heritage</h2>
           <p>
-            Established in 1985 in Kanchipuram, the historical city of silk weavers, <strong>Raju Silks & Sarees</strong> has stood as a beacon of genuine craftsmanship and unadulterated luxury. For generations, we have partnered with local master weavers to preserve and showcase the rich heritage of traditional Indian drapes.
+            Established in 1978 in Kanchipuram, the historical city of silk weavers, <strong>Raju Silks & Sarees</strong> has stood as a beacon of genuine craftsmanship and unadulterated luxury. For generations, we have partnered with local master weavers to preserve and showcase the rich heritage of traditional Indian drapes.
           </p>
         </section>
 
@@ -35,7 +35,7 @@ export default function AboutPage() {
             <p className="font-semibold text-brand-blue">Raju Silks & Sarees</p>
             <p>BK 114, Shivam Rd, Sai Baba Colony, Bagh Amberpet, New Nallakunta, Hyderabad, Telangana 500044</p>
           </div>
-          <p className="font-semibold">Established 1985</p>
+          <p className="font-semibold">Established 1978</p>
         </div>
       </div>
     </div>
