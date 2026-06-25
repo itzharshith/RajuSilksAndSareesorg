@@ -165,7 +165,7 @@ export default function CheckoutPage() {
       }
 
       setLoading(false);
-      return placeOrderData._id;
+      return placeOrderData.orderId || placeOrderData._id;
     } catch (err: any) {
       setErrorMsg(err.message || 'Failed to place order.');
       setLoading(false);
