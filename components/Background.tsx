@@ -32,9 +32,9 @@ export default function Background() {
       pos.current.y += (target.current.y - pos.current.y) * 0.04;
 
       if (imgRef.current) {
-        // scale(1.06) gives room to move without revealing edges
+        // scale(0.8) keeps the watermark fully visible and centered with margins
         imgRef.current.style.transform =
-          `translate3d(${pos.current.x}px, ${pos.current.y}px, 0) scale(1.06)`;
+          `translate3d(${pos.current.x}px, ${pos.current.y}px, 0) scale(0.8)`;
       }
       rafRef.current = requestAnimationFrame(tick);
     };
@@ -51,7 +51,7 @@ export default function Background() {
   return (
     <div
       aria-hidden="true"
-      className="fixed inset-0 z-0 pointer-events-none overflow-hidden"
+      className="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-[#07111E]"
     >
       {/* Silk background image */}
       <img
@@ -59,8 +59,8 @@ export default function Background() {
         src={LOGO_URL}
         alt=""
         loading="lazy"
-        className="absolute inset-0 w-full h-full object-cover object-center select-none"
-        style={{ willChange: 'transform', transform: 'scale(1.06)' }}
+        className="absolute inset-0 w-full h-full object-contain object-center select-none"
+        style={{ willChange: 'transform', transform: 'scale(0.8)' }}
         draggable={false}
       />
       {/* Cinematic dark overlay — ensures text readability on every page */}
