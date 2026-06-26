@@ -101,13 +101,13 @@ export default function Home() {
       {/* 1. Hero Luxury Banner */}
       <section className="relative bg-gradient-to-r from-brand-blue-deep via-brand-blue to-brand-blue-dark text-white overflow-hidden border-b border-brand-cream-text/30">
         <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#D4AF37_1px,transparent_1px)] [background-size:16px_16px]"></div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-28 relative z-10 flex flex-col items-center text-center">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-28 relative z-10 flex flex-col items-center text-center">
           <div className="inline-flex items-center space-x-1.5 bg-brand-cream-text/10 border border-brand-cream-text/30 px-3 py-1 rounded-full text-brand-cream-text text-xs tracking-widest uppercase mb-6 animate-pulse">
             <Sparkles size={12} />
             <span>Master Weavers of Heritage Silks</span>
           </div>
           
-          <h1 className="font-serif font-bold text-3xl sm:text-6xl lg:text-7xl text-brand-cream tracking-wide leading-tight max-w-4xl">
+          <h1 className="font-serif font-bold text-2xl sm:text-6xl lg:text-7xl text-brand-cream tracking-wide leading-tight max-w-4xl">
             Where Every Thread Tells a <span className="text-brand-cream-text">Royal Story</span>
           </h1>
           
@@ -147,7 +147,7 @@ export default function Home() {
             <Link
               key={cat._id}
               href={`/shop?category=${encodeURIComponent(cat.name)}`}
-              className="snap-start shrink-0 flex items-center space-x-2 bg-white rounded-full border border-brand-cream-text/20 px-4 py-2.5 shadow-sm active:border-brand-gold transition-colors whitespace-nowrap"
+              className="snap-start shrink-0 flex items-center space-x-2 bg-white rounded-full border border-brand-cream-text/20 px-4 py-3 min-h-[44px] shadow-sm active:border-brand-gold active:bg-brand-cream-dark transition-colors whitespace-nowrap touch-manipulation"
             >
               <span className="inline-block h-2 w-2 rounded-full bg-brand-gold animate-pulse"></span>
               <span className="font-sans font-bold text-[10px] text-brand-blue-deep tracking-wider uppercase">

@@ -51,6 +51,29 @@ export default function ProductDetails({ params }: { params: Promise<{ id: strin
   const [reviewSuccessMsg, setReviewSuccessMsg] = useState('');
   const [reviewErrorMsg, setReviewErrorMsg] = useState('');
 
+  // Touch swipe state for image gallery
+  const touchStartX = React.useRef<number>(0);
+  const touchEndX = React.useRef<number>(0);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    touchEndX.current = e.changedTouches[0].clientX;
+    const delta = touchStartX.current - touchEndX.current;
+    if (Math.abs(delta) < 50) return; // ignore short swipes
+    if (delta > 0) {
+      // Swiped left — go to next image
+      setActiveImageIdx(prev =>
+        product && product.images ? Math.min(product.images.length - 1, prev + 1) : prev
+      );
+    } else {
+      // Swiped right — go to previous image
+      setActiveImageIdx(prev => Math.max(0, prev - 1));
+    }
+  };
+
   // Fetch product data
   useEffect(() => {
     const fetchProductData = async () => {
@@ -219,8 +242,12 @@ export default function ProductDetails({ params }: { params: Promise<{ id: strin
           {/* Left Column: Image Previews */}
           <div className="space-y-4">
 
-            {/* Active Display */}
-            <div className="aspect-[4/5] bg-brand-cream rounded-lg overflow-hidden border border-brand-cream-text/10 relative">
+            {/* Active Display — touch swipeable on mobile */}
+            <div
+              className="aspect-[4/5] bg-brand-cream rounded-lg overflow-hidden border border-brand-cream-text/10 relative select-none"
+              onTouchStart={handleTouchStart}
+              onTouchEnd={handleTouchEnd}
+            >
               {product.images && product.images[activeImageIdx] ? (
                 <img
                   src={product.images[activeImageIdx]}
@@ -244,20 +271,37 @@ export default function ProductDetails({ params }: { params: Promise<{ id: strin
               </div>
             </div>
 
-            {/* Thumbnails row */}
+            {/* Thumbnails row + swipe hint on mobile */}
             {product.images && product.images.length > 1 && (
-              <div className="flex gap-3 overflow-x-auto py-1">
-                {product.images.map((img, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => setActiveImageIdx(idx)}
-                    className={`h-20 w-16 bg-brand-cream rounded overflow-hidden border-2 shrink-0 transition-all duration-150 ${activeImageIdx === idx ? 'border-brand-cream-text shadow-md' : 'border-transparent opacity-75 hover:opacity-100'
-                      }`}
-                  >
-                    <img src={img} alt="Thumbnail" className="w-full h-full object-cover" />
-                  </button>
-                ))}
-              </div>
+              <>
+                <div className="flex gap-3 overflow-x-auto py-1">
+                  {product.images.map((img, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setActiveImageIdx(idx)}
+                      className={`h-20 w-16 bg-brand-cream rounded overflow-hidden border-2 shrink-0 transition-all duration-150 ${activeImageIdx === idx ? 'border-brand-cream-text shadow-md' : 'border-transparent opacity-75 hover:opacity-100'
+                        }`}
+                    >
+                      <img src={img} alt="Thumbnail" className="w-full h-full object-cover" />
+                    </button>
+                  ))}
+                </div>
+                {/* Swipe indicator dots — mobile only */}
+                {product.images.length > 1 && (
+                  <div className="flex justify-center gap-1.5 sm:hidden pb-1">
+                    {product.images.map((_, idx) => (
+                      <span
+                        key={idx}
+                        className={`block rounded-full transition-all duration-200 ${
+                          activeImageIdx === idx
+                            ? 'w-4 h-1.5 bg-brand-gold'
+                            : 'w-1.5 h-1.5 bg-brand-cream-text/30'
+                        }`}
+                      />
+                    ))}
+                  </div>
+                )}
+              </>
             )}
 
           </div>
@@ -517,24 +561,40 @@ export default function ProductDetails({ params }: { params: Promise<{ id: strin
       </div>
 
       {/* Sticky Mobile Add To Cart CTA Bar */}
-      <div className="fixed bottom-16 left-0 right-0 z-30 bg-white border-t border-brand-cream-text/25 px-4 py-3 flex items-center justify-between shadow-[0_-4px_10px_rgba(7,17,30,0.15)] md:hidden">
-        <div className="flex flex-col">
-          <span className="text-[10px] text-gray-500 uppercase leading-none">Price</span>
-          <span className="text-sm font-serif font-bold text-brand-blue-deep mt-0.5">
+      <div className="fixed bottom-16 left-0 right-0 z-30 bg-white/98 border-t border-brand-cream-text/30 px-4 py-3.5 flex items-center justify-between shadow-[0_-6px_24px_rgba(7,17,30,0.18)] md:hidden backdrop-blur-sm">
+        <div className="flex flex-col justify-center">
+          <span className="text-[10px] text-gray-400 uppercase tracking-widest leading-none font-sans mb-0.5">Total Price</span>
+          <span className="text-lg font-serif font-bold text-brand-blue-deep leading-none">
             ₹{discountedPrice.toLocaleString('en-IN')}
           </span>
+          {discount > 0 && (
+            <span className="text-[10px] text-brand-gold font-sans font-bold mt-0.5">{discount}% OFF applied</span>
+          )}
         </div>
-        <div className="flex gap-2">
+        <div className="flex items-center gap-2.5">
+          {/* Wishlist quick-toggle */}
+          <button
+            onClick={handleWishlistToggle}
+            className={`h-11 w-11 rounded-full border flex items-center justify-center shrink-0 transition-all duration-150 touch-manipulation ${
+              isSaved
+                ? 'bg-red-50 border-red-300 text-red-500'
+                : 'bg-white border-brand-cream-text/30 text-gray-500 active:bg-brand-cream-dark'
+            }`}
+            aria-label={isSaved ? 'Remove from wishlist' : 'Add to wishlist'}
+          >
+            <Heart size={18} fill={isSaved ? '#ef4444' : 'none'} />
+          </button>
+
           {product.stock > 0 ? (
             <button
               onClick={handleAddToCart}
-              className="bg-brand-blue hover:bg-brand-blue-deep text-white font-sans font-semibold tracking-wider text-[11px] px-5 py-2.5 rounded-full flex items-center justify-center space-x-1.5 border border-brand-cream-text/20"
+              className="bg-brand-blue hover:bg-brand-blue-deep active:scale-95 text-white font-sans font-bold tracking-wider text-[11px] h-11 px-6 rounded-full flex items-center justify-center space-x-2 border border-brand-cream-text/20 shadow-md transition-all duration-150 touch-manipulation"
             >
-              <ShoppingCart size={13} />
+              <ShoppingCart size={15} />
               <span>ADD TO CART</span>
             </button>
           ) : (
-            <span className="text-[10px] text-red-700 bg-red-50 border border-red-200 px-3 py-2 rounded font-semibold uppercase">
+            <span className="text-[10px] text-red-700 bg-red-50 border border-red-200 px-4 py-2.5 rounded-full font-bold uppercase tracking-wider">
               Out of Stock
             </span>
           )}

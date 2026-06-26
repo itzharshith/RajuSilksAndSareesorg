@@ -49,7 +49,7 @@ export default function MobileTabBar() {
 
   return (
     <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-brand-blue-deep/95 backdrop-blur-lg border-t border-brand-gold/20 shadow-[0_-8px_30px_rgba(7,17,30,0.4)] pb-safe">
-      <div className="flex justify-around items-center h-16 max-w-lg mx-auto px-2">
+      <div className="flex justify-around items-stretch h-16 max-w-lg mx-auto px-1">
         {navItems.map((item) => {
           const Icon = item.icon;
           const active = isActive(item.path);
@@ -58,37 +58,53 @@ export default function MobileTabBar() {
             <Link
               key={item.label}
               href={item.path}
-              className={`flex flex-col items-center justify-center flex-1 py-1 px-2.5 rounded-2xl transition-all duration-300 relative ${
-                active 
-                  ? 'bg-brand-gold/10 text-brand-gold scale-105' 
-                  : 'text-brand-cream-text/60 hover:text-brand-cream-text hover:bg-brand-cream-text/5'
+              className={`relative flex flex-col items-center justify-center flex-1 py-1 px-2 rounded-xl transition-all duration-200 touch-manipulation min-h-[44px] ${
+                active
+                  ? 'text-brand-gold'
+                  : 'text-brand-cream-text/55 active:text-brand-cream-text active:bg-brand-cream-text/5'
               }`}
             >
-              <div className="relative flex items-center justify-center p-0.5">
-                <Icon 
-                  size={24} 
-                  className={`transition-all duration-300 ${
-                    active ? 'stroke-[2.2px] drop-shadow-[0_0_8px_rgba(212,175,55,0.4)]' : 'stroke-[1.8px]'
-                  }`} 
+              {/* Active pill background */}
+              {active && (
+                <span className="absolute inset-x-1 inset-y-1 rounded-xl bg-brand-gold/15 border border-brand-gold/25 animate-tab-pill" />
+              )}
+
+              <div className="relative flex items-center justify-center z-10">
+                <Icon
+                  size={24}
+                  className={`transition-all duration-200 ${
+                    active
+                      ? 'stroke-[2.2px] drop-shadow-[0_0_10px_rgba(212,175,55,0.5)]'
+                      : 'stroke-[1.7px]'
+                  }`}
                 />
-                
+
                 {/* Badges */}
                 {item.badge !== undefined && item.badge > 0 ? (
-                  <span className={`absolute -top-1.5 -right-2 font-sans font-bold text-[9px] h-4.5 w-4.5 rounded-full flex items-center justify-center border shadow-sm transition-all duration-300 ${
-                    active 
-                      ? 'bg-brand-cream text-brand-blue-deep border-brand-gold' 
-                      : 'bg-brand-gold text-brand-blue-deep border-brand-blue-deep'
-                  }`}>
+                  <span
+                    className={`absolute -top-2 -right-2.5 font-sans font-extrabold text-[9px] h-[18px] min-w-[18px] px-0.5 rounded-full flex items-center justify-center border-2 shadow-sm transition-all duration-200 ${
+                      active
+                        ? 'bg-brand-cream text-brand-blue-deep border-brand-gold'
+                        : 'bg-brand-gold text-brand-blue-deep border-brand-blue-deep'
+                    }`}
+                  >
                     {item.badge}
                   </span>
                 ) : null}
               </div>
-              
-              <span className={`text-[10px] tracking-widest font-sans font-semibold mt-1 uppercase transition-colors duration-300 ${
-                active ? 'text-brand-gold font-bold' : 'text-brand-cream-text/50'
-              }`}>
+
+              <span
+                className={`text-[10px] tracking-widest font-sans font-semibold mt-0.5 uppercase transition-colors duration-200 z-10 ${
+                  active ? 'text-brand-gold font-bold' : 'text-brand-cream-text/45'
+                }`}
+              >
                 {item.label}
               </span>
+
+              {/* Gold underline accent pill */}
+              {active && (
+                <span className="absolute bottom-1 left-1/2 -translate-x-1/2 h-0.5 w-6 rounded-full bg-brand-gold shadow-[0_0_6px_rgba(212,175,55,0.8)] animate-tab-pill" />
+              )}
             </Link>
           );
         })}

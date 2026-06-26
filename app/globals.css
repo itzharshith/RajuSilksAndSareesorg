@@ -24,7 +24,11 @@
     font-family: var(--font-sans);
     background-color: var(--color-brand-cream);
     color: #1a1a1a;
+    overscroll-behavior-y: none;
+    -webkit-tap-highlight-color: transparent;
   }
+  /* Prevent horizontal overflow on all screen sizes */
+  html, body { max-width: 100%; overflow-x: hidden; }
 }
 
 @layer utilities {
@@ -46,6 +50,11 @@
 
   @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
   @keyframes scaleUp { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+  @keyframes navUnderline { from { transform: scaleX(0); opacity: 0; } to { transform: scaleX(1); opacity: 1; } }
+  @keyframes dropdownIn { from { opacity: 0; transform: translateY(-8px) scale(0.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
+
+  .animate-nav-underline { animation: navUnderline 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; transform-origin: left; }
+  .animate-dropdown { animation: dropdownIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 
   /* Mobile Safe Area and Layout Utilities */
   .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
@@ -58,4 +67,20 @@
   .snap-start { scroll-snap-align: start; }
   .no-scrollbar::-webkit-scrollbar { display: none; }
   .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+  /* Touch-action: enables instant tap response, disables 300ms delay */
+  .touch-manipulation { touch-action: manipulation; }
+
+  /* Mobile typography scale — prevents large headings from overflowing 360-390px screens */
+  @media (max-width: 640px) {
+    .text-hero-mobile { font-size: clamp(1.5rem, 6vw, 2rem); line-height: 1.2; }
+    .text-section-mobile { font-size: clamp(1.1rem, 4.5vw, 1.35rem); }
+  }
+
+  /* Animated pill indicator for tab bar */
+  @keyframes tabPillIn {
+    from { opacity: 0; transform: scaleX(0.5); }
+    to { opacity: 1; transform: scaleX(1); }
+  }
+  .animate-tab-pill { animation: tabPillIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1); }
 }
