@@ -24,11 +24,10 @@
     font-family: var(--font-sans);
     background-color: var(--color-brand-cream);
     color: #1a1a1a;
-    overscroll-behavior-y: none;
     -webkit-tap-highlight-color: transparent;
+    /* overflow-x on body only — NOT html, as html:overflow breaks trackpad scroll */
+    overflow-x: hidden;
   }
-  /* Prevent horizontal overflow on all screen sizes */
-  html, body { max-width: 100%; overflow-x: hidden; }
 }
 
 @layer utilities {
