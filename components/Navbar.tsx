@@ -56,15 +56,23 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
 
           {/* Logo */}
-          <Link href="/" className="group flex flex-col leading-tight relative overflow-hidden" aria-label="Raju Silks Home">
-            {/* Logo shimmer sweep on hover */}
-            <span className="absolute inset-0 -skew-x-12 translate-x-[-110%] group-hover:translate-x-[110%] transition-transform duration-700 bg-gradient-to-r from-transparent via-white/10 to-transparent pointer-events-none" />
-            <span className="font-serif text-brand-cream-text text-lg tracking-widest uppercase font-semibold group-hover:text-white transition-colors duration-200">
-              Raju Silks
-            </span>
-            <span className="text-brand-cream-text-dark text-xs tracking-[0.3em] uppercase group-hover:text-brand-gold transition-colors duration-300">
-              &amp; Sarees
-            </span>
+          <Link href="/" className="group flex items-center gap-2.5 leading-tight relative overflow-hidden" aria-label="Raju Silks Home">
+            <img
+              src="https://res.cloudinary.com/dbdzceo6f/image/upload/v1782464841/Gemini_Generated_Image_4r4oq14r4oq14r4o_2_cefvos.png"
+              alt="Raju Silks & Sarees Logo"
+              className="h-10 w-10 object-contain rounded-full border border-brand-gold/30 shadow-inner bg-brand-blue-deep/20 select-none pointer-events-none"
+              draggable={false}
+            />
+            <div className="flex flex-col">
+              {/* Logo shimmer sweep on hover */}
+              <span className="absolute inset-0 -skew-x-12 translate-x-[-110%] group-hover:translate-x-[110%] transition-transform duration-700 bg-gradient-to-r from-transparent via-white/10 to-transparent pointer-events-none" />
+              <span className="font-serif text-brand-cream-text text-lg tracking-widest uppercase font-semibold group-hover:text-white transition-colors duration-200">
+                Raju Silks
+              </span>
+              <span className="text-brand-cream-text-dark text-xs tracking-[0.3em] uppercase group-hover:text-brand-gold transition-colors duration-300">
+                &amp; Sarees
+              </span>
+            </div>
           </Link>
 
           {/* Desktop Nav Links */}
