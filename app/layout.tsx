@@ -16,6 +16,9 @@ export const metadata: Metadata = {
   keywords: ['silk sarees', 'Kanjeevaram', 'Banarasi', 'Indian sarees', 'ethnic wear', 'handloom'],
 };
 
+const LOGO_URL =
+  'https://res.cloudinary.com/dbdzceo6f/image/upload/v1782464841/Gemini_Generated_Image_4r4oq14r4oq14r4o_2_cefvos.png';
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${cinzel.variable} ${inter.variable}`}>
@@ -23,12 +26,33 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://fonts.googleapis.com" />
       </head>
       <body>
+        {/* Global watermark logo — fixed behind all content on every page */}
+        <div
+          aria-hidden="true"
+          className="fixed inset-0 z-0 pointer-events-none flex items-center justify-center overflow-hidden"
+        >
+          <img
+            src={LOGO_URL}
+            alt=""
+            className="w-[min(70vw,600px)] h-auto object-contain select-none"
+            style={{
+              opacity: 0.045,
+              filter: 'grayscale(30%) sepia(20%)',
+              mixBlendMode: 'multiply',
+            }}
+            draggable={false}
+          />
+        </div>
+
         <AuthProvider>
           <CartProvider>
-            <Navbar />
-            <main className="min-h-screen pb-16 lg:pb-0">{children}</main>
-            <MobileTabBar />
-            <Footer />
+            {/* Stacking context above the watermark */}
+            <div className="relative z-10 flex flex-col min-h-screen">
+              <Navbar />
+              <main className="flex-1 pb-16 lg:pb-0">{children}</main>
+              <MobileTabBar />
+              <Footer />
+            </div>
           </CartProvider>
         </AuthProvider>
       </body>
