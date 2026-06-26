@@ -56,9 +56,9 @@ export default function CartPage() {
 
   if (cartItems.length === 0) {
     return (
-      <div className="bg-brand-cream min-h-screen py-20 font-sans">
-        <div className="max-w-md mx-auto px-6 py-12 bg-white rounded-xl border border-brand-cream-text/15 shadow-luxury text-center">
-          <div className="h-16 w-16 bg-brand-cream text-brand-blue mx-auto rounded-full flex items-center justify-center mb-4 border border-brand-cream-text/15">
+      <div className="min-h-screen py-20 font-sans">
+        <div className="max-w-md mx-auto px-6 py-12 glass-panel rounded-xl shadow-luxury text-center">
+          <div className="h-16 w-16 bg-white/30 text-brand-blue mx-auto rounded-full flex items-center justify-center mb-4 border border-white/40">
             <ShoppingCart size={28} />
           </div>
           <h1 className="font-serif font-bold text-xl text-brand-blue-deep mb-2">Your Shopping Cart is Empty</h1>
@@ -75,10 +75,10 @@ export default function CartPage() {
   }
 
   return (
-    <div className="bg-brand-cream min-h-screen pt-12 pb-28 md:pb-12 font-sans">
+    <div className="min-h-screen pt-12 pb-28 md:pb-12 font-sans">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        <h1 className="font-serif font-bold text-2xl sm:text-3xl text-brand-blue-deep tracking-wider mb-8">
+        <h1 className="font-serif font-bold text-2xl sm:text-3xl text-brand-cream-text tracking-wider mb-8">
           Shopping Cart
         </h1>
 
@@ -93,10 +93,10 @@ export default function CartPage() {
               return (
                 <div 
                   key={product._id} 
-                  className="bg-white rounded-xl border border-brand-cream-text/15 p-4 flex gap-4 shadow-luxury hover:border-brand-cream-text/30 transition-all duration-200"
+                  className="glass-panel rounded-xl p-4 flex gap-4 shadow-luxury hover:shadow-2xl transition-all duration-200"
                 >
                   {/* Image */}
-                  <Link href={`/products/${product._id}`} className="h-24 w-20 shrink-0 bg-brand-cream rounded overflow-hidden border border-brand-cream-text/10 relative">
+                  <Link href={`/products/${product._id}`} className="h-24 w-20 shrink-0 bg-brand-blue-deep/20 rounded overflow-hidden border border-white/20 relative">
                     <img src={product.images?.[0] || '/placeholder.png'} alt={product.name} className="w-full h-full object-cover" />
                   </Link>
 
@@ -162,7 +162,7 @@ export default function CartPage() {
           <div className="space-y-6">
             
             {/* Coupon Panel */}
-            <div className="bg-white rounded-xl border border-brand-cream-text/15 p-5 shadow-luxury">
+            <div className="glass-panel rounded-xl p-5 shadow-luxury">
               <span className="text-xs font-bold text-brand-blue-deep uppercase tracking-widest block mb-3 flex items-center gap-1.5">
                 <Ticket size={16} className="text-brand-cream-text" />
                 Apply Coupon
@@ -224,7 +224,7 @@ export default function CartPage() {
             </div>
 
             {/* Calculations Card */}
-            <div className="bg-white rounded-xl border border-brand-cream-text/15 p-6 shadow-luxury space-y-4">
+            <div className="glass-panel rounded-xl p-6 shadow-luxury space-y-4">
               <span className="font-serif font-bold text-base text-brand-blue-deep tracking-wider block border-b border-brand-cream-dark pb-3">
                 Order Summary
               </span>
@@ -277,10 +277,10 @@ export default function CartPage() {
 
       {/* Sticky Mobile Checkout CTA Bar */}
       {cartItems.length > 0 && (
-        <div className="fixed bottom-16 left-0 right-0 z-30 bg-white border-t border-brand-cream-text/25 px-4 py-3.5 flex items-center justify-between shadow-[0_-4px_10px_rgba(7,17,30,0.15)] md:hidden">
+        <div className="fixed bottom-16 left-0 right-0 z-30 bg-black/80 backdrop-blur-md border-t border-white/10 px-4 py-3.5 flex items-center justify-between shadow-[0_-4px_10px_rgba(0,0,0,0.4)] md:hidden">
           <div className="flex flex-col">
-            <span className="text-[10px] text-gray-500 uppercase leading-none">Total (Incl. Tax)</span>
-            <span className="text-sm font-serif font-bold text-brand-blue-deep mt-0.5">
+            <span className="text-[10px] text-white/60 uppercase leading-none">Total (Incl. Tax)</span>
+            <span className="text-sm font-serif font-bold text-white mt-0.5">
               ₹{totalAmount.toLocaleString('en-IN')}
             </span>
           </div>

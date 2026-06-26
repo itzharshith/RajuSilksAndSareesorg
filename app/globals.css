@@ -20,9 +20,13 @@
 
 @layer base {
   * { box-sizing: border-box; }
+
+  /* Fallback page bg in case Background image is still loading */
+  html { background: #07111E; }
+
   body {
     font-family: var(--font-sans);
-    background-color: var(--color-brand-cream);
+    background: transparent;
     color: #1a1a1a;
     -webkit-tap-highlight-color: transparent;
     /* overflow-x on body only — NOT html, as html:overflow breaks trackpad scroll */
@@ -44,6 +48,50 @@
   .border-brand-cream-text { border-color: var(--color-brand-cream-text); }
   .shadow-luxury { box-shadow: var(--shadow-luxury); }
 
+  /* =============================================
+     GLASS SYSTEM — unified for entire app
+     ============================================= */
+
+  /* Frosted white glass — for content panels, cards with dark text */
+  .glass-panel {
+    background: rgba(255, 255, 255, 0.82);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.55);
+  }
+
+  /* Lighter frosted glass — for product cards */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.78);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.45);
+  }
+
+  /* Dark glass — for dark sections (hero, banners, drawers on dark bg) */
+  .glass-dark {
+    background: rgba(7, 17, 30, 0.68);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  /* Nav glass — for sticky navbar */
+  .glass-nav {
+    background: rgba(0, 0, 0, 0.30);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+  }
+
+  .glass-nav-scrolled {
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(22px);
+    -webkit-backdrop-filter: blur(22px);
+  }
+
+  /* =============================================
+     ANIMATIONS
+     ============================================= */
   .animate-fade-in { animation: fadeIn 0.5s ease-out; }
   .animate-scale-up { animation: scaleUp 0.3s ease-out; }
 
@@ -60,17 +108,16 @@
   .pt-safe { padding-top: env(safe-area-inset-top); }
   .mb-safe { margin-bottom: env(safe-area-inset-bottom); }
   .mt-safe { margin-top: env(safe-area-inset-top); }
-  
+
   .snap-x { scroll-snap-type: x mandatory; }
   .snap-center { scroll-snap-align: center; }
   .snap-start { scroll-snap-align: start; }
   .no-scrollbar::-webkit-scrollbar { display: none; }
   .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-  /* Touch-action: enables instant tap response, disables 300ms delay */
   .touch-manipulation { touch-action: manipulation; }
 
-  /* Mobile typography scale — prevents large headings from overflowing 360-390px screens */
+  /* Mobile typography scale */
   @media (max-width: 640px) {
     .text-hero-mobile { font-size: clamp(1.5rem, 6vw, 2rem); line-height: 1.2; }
     .text-section-mobile { font-size: clamp(1.1rem, 4.5vw, 1.35rem); }

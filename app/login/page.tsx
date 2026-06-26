@@ -61,12 +61,12 @@ function LoginContent() {
   };
 
   return (
-    <div className="bg-brand-cream min-h-screen py-20 flex items-center justify-center font-sans">
-      <div className="w-full max-w-md bg-white border border-brand-cream-text/25 rounded-2xl shadow-luxury overflow-hidden animate-scale-up">
+    <div className="min-h-screen py-20 flex items-center justify-center font-sans">
+      <div className="w-full max-w-md glass-panel rounded-2xl shadow-luxury overflow-hidden animate-scale-up">
         
         {/* Banner header */}
-        <div className="bg-brand-blue text-white p-8 text-center relative border-b border-brand-cream-text/30">
-          <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#D4AF37_1px,transparent_1px)] [background-size:12px_12px]"></div>
+        <div className="bg-black/50 backdrop-blur-sm text-white p-8 text-center relative border-b border-white/10">
+          <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#D4AF37_1px,transparent_1px)] [background-size:12px_12px] pointer-events-none"></div>
           
           <div className="inline-flex items-center space-x-1 bg-brand-cream-text/10 border border-brand-cream-text/20 px-2 py-0.5 rounded-full text-brand-cream-text text-[9px] tracking-widest uppercase mb-2">
             <Sparkles size={10} />
@@ -146,7 +146,7 @@ function LoginContent() {
 export default function LoginPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-brand-cream flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-brand-blue"></div>
       </div>
     }>

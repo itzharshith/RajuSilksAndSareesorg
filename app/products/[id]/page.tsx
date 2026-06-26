@@ -109,17 +109,17 @@ export default function ProductDetails({ params }: { params: Promise<{ id: strin
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-brand-cream flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-brand-blue"></div>
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-brand-cream-text"></div>
       </div>
     );
   }
 
   if (!product) {
     return (
-      <div className="min-h-screen bg-brand-cream py-20 text-center">
-        <p className="font-serif italic text-lg text-brand-blue-deep mb-4">Masterwork Saree not found.</p>
-        <Link href="/shop" className="bg-brand-blue hover:bg-brand-blue-deep text-white text-xs px-6 py-2 rounded-full border border-brand-cream-text/20">
+      <div className="min-h-screen py-20 text-center animate-fade-in">
+        <p className="font-serif italic text-lg text-brand-cream-text mb-4">Masterwork Saree not found.</p>
+        <Link href="/shop" className="bg-brand-blue hover:bg-brand-blue-deep text-white text-xs px-6 py-2 rounded-full border border-brand-cream-text/20 transition-colors">
           Back to Shop
         </Link>
       </div>
@@ -222,29 +222,29 @@ export default function ProductDetails({ params }: { params: Promise<{ id: strin
   const user = session?.user;
 
   return (
-    <div className="bg-brand-cream min-h-screen pt-12 pb-28 md:pb-12 font-sans">
+    <div className="min-h-screen pt-12 pb-28 md:pb-12 font-sans">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Breadcrumbs */}
-        <div className="text-xs text-gray-500 mb-8 flex items-center space-x-1.5 font-sans">
-          <Link href="/" className="hover:text-brand-cream-text">Home</Link>
+        <div className="text-xs text-brand-cream-text/60 mb-8 flex items-center space-x-1.5 font-sans">
+          <Link href="/" className="hover:text-brand-cream-text transition-colors">Home</Link>
           <span>/</span>
-          <Link href="/shop" className="hover:text-brand-cream-text">Shop</Link>
+          <Link href="/shop" className="hover:text-brand-cream-text transition-colors">Shop</Link>
           <span>/</span>
-          <Link href={`/shop?category=${encodeURIComponent(product.category?.name || '')}`} className="hover:text-brand-cream-text">{product.category?.name}</Link>
+          <Link href={`/shop?category=${encodeURIComponent(product.category?.name || '')}`} className="hover:text-brand-cream-text transition-colors">{product.category?.name}</Link>
           <span>/</span>
-          <span className="text-brand-blue-deep font-semibold truncate max-w-[200px]">{product.name}</span>
+          <span className="text-brand-cream-text font-semibold truncate max-w-[200px]">{product.name}</span>
         </div>
 
         {/* Product core structure */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 bg-white rounded-xl border border-brand-cream-text/15 p-6 md:p-8 shadow-luxury mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 glass-panel rounded-xl border border-brand-cream-text/15 p-6 md:p-8 shadow-luxury mb-12">
 
           {/* Left Column: Image Previews */}
           <div className="space-y-4">
 
             {/* Active Display — touch swipeable on mobile */}
             <div
-              className="aspect-[4/5] bg-brand-cream rounded-lg overflow-hidden border border-brand-cream-text/10 relative select-none"
+              className="aspect-[4/5] bg-black/20 rounded-lg overflow-hidden border border-brand-cream-text/10 relative select-none"
               onTouchStart={handleTouchStart}
               onTouchEnd={handleTouchEnd}
             >
@@ -279,7 +279,7 @@ export default function ProductDetails({ params }: { params: Promise<{ id: strin
                     <button
                       key={idx}
                       onClick={() => setActiveImageIdx(idx)}
-                      className={`h-20 w-16 bg-brand-cream rounded overflow-hidden border-2 shrink-0 transition-all duration-150 ${activeImageIdx === idx ? 'border-brand-cream-text shadow-md' : 'border-transparent opacity-75 hover:opacity-100'
+                      className={`h-20 w-16 bg-black/20 rounded overflow-hidden border-2 shrink-0 transition-all duration-150 ${activeImageIdx === idx ? 'border-brand-cream-text shadow-md' : 'border-transparent opacity-75 hover:opacity-100'
                         }`}
                     >
                       <img src={img} alt="Thumbnail" className="w-full h-full object-cover" />
@@ -311,7 +311,7 @@ export default function ProductDetails({ params }: { params: Promise<{ id: strin
             <div className="space-y-5">
               <span className="text-xs text-brand-cream-text font-sans tracking-widest font-bold uppercase">{product.category?.name}</span>
 
-              <h1 className="font-serif font-bold text-2xl sm:text-3xl text-brand-blue-deep leading-tight">
+              <h1 className="font-serif font-bold text-2xl sm:text-3xl text-brand-cream-text leading-tight">
                 {product.name}
               </h1>
 
@@ -327,28 +327,28 @@ export default function ProductDetails({ params }: { params: Promise<{ id: strin
                     />
                   ))}
                 </div>
-                <span className="text-xs text-gray-500 font-sans font-medium">({product.numReviews || 0} customer reviews)</span>
+                <span className="text-xs text-brand-cream-text/60 font-sans font-medium">({product.numReviews || 0} customer reviews)</span>
               </div>
 
               {/* Price Details */}
-              <div className="p-4 bg-brand-cream/40 border border-brand-cream-text/10 rounded-lg flex items-center gap-4">
+              <div className="p-4 bg-white/5 border border-brand-cream-text/10 rounded-lg flex items-center gap-4">
                 <div className="flex flex-col">
                   {discount > 0 ? (
                     <>
                       <div className="flex items-baseline space-x-2.5">
-                        <span className="text-2xl font-serif font-bold text-brand-blue-deep">
+                        <span className="text-2xl font-serif font-bold text-brand-cream-text">
                           ₹{discountedPrice.toLocaleString('en-IN')}
                         </span>
-                        <span className="text-xs text-brand-cream-text font-sans font-bold uppercase tracking-wider bg-brand-blue/10 px-2 py-0.5 rounded">
+                        <span className="text-xs text-brand-cream-text font-sans font-bold uppercase tracking-wider bg-white/10 px-2 py-0.5 rounded">
                           {discount}% OFF
                         </span>
                       </div>
-                      <span className="text-xs text-gray-400 line-through mt-1">
+                      <span className="text-xs text-brand-cream-text/50 line-through mt-1">
                         M.R.P: ₹{product.price.toLocaleString('en-IN')}
                       </span>
                     </>
                   ) : (
-                    <span className="text-2xl font-serif font-bold text-brand-blue-deep">
+                    <span className="text-2xl font-serif font-bold text-brand-cream-text">
                       ₹{product.price.toLocaleString('en-IN')}
                     </span>
                   )}
@@ -357,13 +357,13 @@ export default function ProductDetails({ params }: { params: Promise<{ id: strin
 
               {/* Inventory availability indicator */}
               <div className="flex items-center text-xs font-sans">
-                <span className="text-gray-500 mr-2">Availability:</span>
+                <span className="text-brand-cream-text/60 mr-2">Availability:</span>
                 {product.stock > 0 ? (
-                  <span className="text-green-700 bg-green-50 border border-green-200 px-2.5 py-1 rounded font-semibold uppercase tracking-wider">
+                  <span className="text-emerald-400 bg-emerald-500/10 border border-emerald-500/25 px-2.5 py-1 rounded font-semibold uppercase tracking-wider">
                     In Stock ({product.stock} units)
                   </span>
                 ) : (
-                  <span className="text-red-700 bg-red-50 border border-red-200 px-2.5 py-1 rounded font-semibold uppercase tracking-wider">
+                  <span className="text-rose-400 bg-rose-500/10 border border-rose-500/25 px-2.5 py-1 rounded font-semibold uppercase tracking-wider">
                     Out of Stock
                   </span>
                 )}
@@ -371,25 +371,25 @@ export default function ProductDetails({ params }: { params: Promise<{ id: strin
 
               {/* Saree description body */}
               <div>
-                <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider block mb-2 font-sans">Description</span>
-                <p className="text-xs sm:text-sm text-gray-600 leading-relaxed font-sans font-normal">
+                <span className="text-xs font-semibold text-brand-cream-text/75 uppercase tracking-wider block mb-2 font-sans">Description</span>
+                <p className="text-xs sm:text-sm text-brand-cream-text/80 leading-relaxed font-sans font-normal">
                   {product.description}
                 </p>
               </div>
 
               {/* Core features block */}
-              <div className="grid grid-cols-3 gap-3 border-y border-brand-cream-dark py-4 text-center">
+              <div className="grid grid-cols-3 gap-3 border-y border-white/10 py-4 text-center">
                 <div className="flex flex-col items-center">
                   <ShieldCheck size={18} className="text-brand-cream-text mb-1" />
-                  <span className="text-[10px] text-gray-700 font-semibold uppercase">100% Pure Silk</span>
+                  <span className="text-[10px] text-brand-cream-text/80 font-semibold uppercase">100% Pure Silk</span>
                 </div>
-                <div className="flex flex-col items-center border-x border-brand-cream-dark">
+                <div className="flex flex-col items-center border-x border-white/10">
                   <Truck size={18} className="text-brand-cream-text mb-1" />
-                  <span className="text-[10px] text-gray-700 font-semibold uppercase">Free Delivery</span>
+                  <span className="text-[10px] text-brand-cream-text/80 font-semibold uppercase">Free Delivery</span>
                 </div>
                 <div className="flex flex-col items-center">
                   <RefreshCw size={18} className="text-brand-cream-text mb-1" />
-                  <span className="text-[10px] text-gray-700 font-semibold uppercase">Easy Exchange</span>
+                  <span className="text-[10px] text-brand-cream-text/80 font-semibold uppercase">Easy Exchange</span>
                 </div>
               </div>
             </div>
@@ -399,17 +399,17 @@ export default function ProductDetails({ params }: { params: Promise<{ id: strin
               {product.stock > 0 && (
                 <div className="flex items-center space-x-4">
                   {/* Quantity selector */}
-                  <div className="flex items-center border border-brand-cream-text/30 rounded-full bg-brand-cream/50 overflow-hidden">
+                  <div className="flex items-center border border-brand-cream-text/30 rounded-full bg-black/20 overflow-hidden">
                     <button
                       onClick={() => handleQtyChange('dec')}
-                      className="px-3.5 py-2 hover:bg-brand-cream-text/15 text-brand-blue font-bold text-sm"
+                      className="px-3.5 py-2 hover:bg-white/10 text-brand-cream-text font-bold text-sm"
                     >
                       -
                     </button>
-                    <span className="px-4 py-2 text-xs font-bold text-brand-blue-deep font-sans">{quantity}</span>
+                    <span className="px-4 py-2 text-xs font-bold text-brand-cream-text font-sans">{quantity}</span>
                     <button
                       onClick={() => handleQtyChange('inc')}
-                      className="px-3.5 py-2 hover:bg-brand-cream-text/15 text-brand-blue font-bold text-sm"
+                      className="px-3.5 py-2 hover:bg-white/10 text-brand-cream-text font-bold text-sm"
                     >
                       +
                     </button>
@@ -430,11 +430,11 @@ export default function ProductDetails({ params }: { params: Promise<{ id: strin
               <button
                 onClick={handleWishlistToggle}
                 className={`w-full py-2.5 rounded-full border text-xs font-semibold tracking-wider flex items-center justify-center space-x-2 transition-all duration-150 ${isSaved
-                    ? 'bg-brand-blue/5 border-brand-blue text-brand-blue-deep'
-                    : 'bg-white border-brand-cream-text/20 text-gray-700 hover:border-brand-cream-text'
+                    ? 'bg-red-500/10 border-red-500/30 text-red-400'
+                    : 'bg-white/10 border-brand-cream-text/20 text-brand-cream-text hover:bg-white/20'
                   }`}
               >
-                <Heart size={14} fill={isSaved ? '#721c24' : 'none'} />
+                <Heart size={14} fill={isSaved ? '#ef4444' : 'none'} className="transition-colors" />
                 <span>{isSaved ? 'REMOVE FROM WISHLIST' : 'ADD TO WISHLIST'}</span>
               </button>
             </div>
@@ -444,8 +444,8 @@ export default function ProductDetails({ params }: { params: Promise<{ id: strin
         </div>
 
         {/* Reviews Section */}
-        <div className="bg-white rounded-xl border border-brand-cream-text/15 p-6 md:p-8 shadow-luxury mb-12">
-          <h2 className="font-serif font-bold text-xl text-brand-blue-deep tracking-wider mb-6">
+        <div className="glass-panel rounded-xl border border-brand-cream-text/15 p-6 md:p-8 shadow-luxury mb-12">
+          <h2 className="font-serif font-bold text-xl text-brand-cream-text tracking-wider mb-6">
             Customer Reviews & Feedback
           </h2>
 
@@ -454,11 +454,11 @@ export default function ProductDetails({ params }: { params: Promise<{ id: strin
             <div className="lg:col-span-2 space-y-4">
               {product.reviews && product.reviews.length > 0 ? (
                 product.reviews.map((rev) => (
-                  <div key={rev._id} className="p-4 border border-brand-cream-text/10 bg-brand-cream/10 rounded-lg">
+                  <div key={rev._id} className="p-4 border border-white/10 bg-white/5 rounded-lg">
                     <div className="flex items-center justify-between mb-2">
                       <div>
-                        <span className="text-xs font-semibold text-brand-blue-deep block">{rev.user?.name}</span>
-                        <span className="text-[10px] text-gray-400 font-sans">{new Date(rev.createdAt).toLocaleDateString()}</span>
+                        <span className="text-xs font-semibold text-brand-cream-text block">{rev.user?.name}</span>
+                        <span className="text-[10px] text-brand-cream-text/50 font-sans">{new Date(rev.createdAt).toLocaleDateString()}</span>
                       </div>
                       <div className="flex text-brand-cream-text">
                         {[...Array(5)].map((_, i) => (
@@ -471,26 +471,26 @@ export default function ProductDetails({ params }: { params: Promise<{ id: strin
                         ))}
                       </div>
                     </div>
-                    <p className="text-xs text-gray-600 leading-relaxed font-sans">{rev.comment}</p>
+                    <p className="text-xs text-brand-cream-text/70 leading-relaxed font-sans">{rev.comment}</p>
                   </div>
                 ))
               ) : (
-                <div className="text-center py-8 border border-dashed border-brand-cream-text/20 rounded-lg">
-                  <p className="text-xs text-gray-500 font-sans">No reviews submitted yet for this saree. Be the first to review!</p>
+                <div className="text-center py-8 border border-dashed border-white/20 rounded-lg">
+                  <p className="text-xs text-brand-cream-text/50 font-sans">No reviews submitted yet for this saree. Be the first to review!</p>
                 </div>
               )}
             </div>
 
             {/* Add Review Panel */}
-            <div className="bg-brand-cream/25 border border-brand-cream-text/15 p-5 rounded-lg h-fit">
-              <h3 className="text-xs font-bold text-brand-blue-deep uppercase tracking-widest mb-4">Write a Review</h3>
+            <div className="glass-card border border-brand-cream-text/15 p-5 rounded-lg h-fit">
+              <h3 className="text-xs font-bold text-brand-cream-text uppercase tracking-widest mb-4">Write a Review</h3>
               {user ? (
                 <form onSubmit={handleReviewSubmit} className="space-y-4">
-                  {reviewSuccessMsg && <p className="text-xs font-semibold text-green-700">{reviewSuccessMsg}</p>}
-                  {reviewErrorMsg && <p className="text-xs font-semibold text-red-700">{reviewErrorMsg}</p>}
+                  {reviewSuccessMsg && <p className="text-xs font-semibold text-emerald-400">{reviewSuccessMsg}</p>}
+                  {reviewErrorMsg && <p className="text-xs font-semibold text-rose-400">{reviewErrorMsg}</p>}
 
                   <div>
-                    <label className="text-[10px] font-bold text-gray-500 uppercase block mb-1.5">Rating</label>
+                    <label className="text-[10px] font-bold text-brand-cream-text/60 uppercase block mb-1.5">Rating</label>
                     <div className="flex items-center space-x-1.5">
                       {[1, 2, 3, 4, 5].map((star) => (
                         <button
@@ -510,13 +510,13 @@ export default function ProductDetails({ params }: { params: Promise<{ id: strin
                   </div>
 
                   <div>
-                    <label className="text-[10px] font-bold text-gray-500 uppercase block mb-1.5">Your Experience</label>
+                    <label className="text-[10px] font-bold text-brand-cream-text/60 uppercase block mb-1.5">Your Experience</label>
                     <textarea
                       rows={3}
                       value={commentInput}
                       onChange={(e) => setCommentInput(e.target.value)}
                       placeholder="Comment on the texture, weave, look..."
-                      className="w-full text-xs bg-white border border-brand-cream-text/15 rounded-lg p-2.5 focus:outline-none focus:border-brand-cream-text text-gray-800"
+                      className="w-full text-xs bg-black/20 border border-brand-cream-text/15 rounded-lg p-2.5 focus:outline-none focus:border-brand-cream-text text-brand-cream-text placeholder-brand-cream-text/40"
                     />
                   </div>
 
@@ -531,10 +531,10 @@ export default function ProductDetails({ params }: { params: Promise<{ id: strin
                 </form>
               ) : (
                 <div className="text-center py-4">
-                  <p className="text-xs text-gray-500 font-sans mb-3">Please sign in to write a product review.</p>
+                  <p className="text-xs text-brand-cream-text/60 font-sans mb-3">Please sign in to write a product review.</p>
                   <Link
                     href="/login"
-                    className="inline-block bg-brand-blue text-white text-[11px] font-semibold px-4 py-1.5 rounded-full"
+                    className="inline-block bg-brand-blue hover:bg-brand-blue-deep text-white text-[11px] font-semibold px-4 py-1.5 rounded-full transition-colors"
                   >
                     Sign In
                   </Link>
@@ -547,7 +547,7 @@ export default function ProductDetails({ params }: { params: Promise<{ id: strin
         {/* Related Products Grid */}
         {relatedProducts.length > 0 && (
           <div>
-            <h2 className="font-serif font-bold text-lg text-brand-blue-deep tracking-wider mb-6">
+            <h2 className="font-serif font-bold text-lg text-brand-cream-text tracking-wider mb-6">
               You May Also Adore
             </h2>
             <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
@@ -561,10 +561,10 @@ export default function ProductDetails({ params }: { params: Promise<{ id: strin
       </div>
 
       {/* Sticky Mobile Add To Cart CTA Bar */}
-      <div className="fixed bottom-16 left-0 right-0 z-30 bg-white/98 border-t border-brand-cream-text/30 px-4 py-3.5 flex items-center justify-between shadow-[0_-6px_24px_rgba(7,17,30,0.18)] md:hidden backdrop-blur-sm">
+      <div className="fixed bottom-16 left-0 right-0 z-30 glass-dark border-t border-white/10 px-4 py-3.5 flex items-center justify-between shadow-[0_-6px_24px_rgba(7,17,30,0.3)] md:hidden backdrop-blur-md">
         <div className="flex flex-col justify-center">
-          <span className="text-[10px] text-gray-400 uppercase tracking-widest leading-none font-sans mb-0.5">Total Price</span>
-          <span className="text-lg font-serif font-bold text-brand-blue-deep leading-none">
+          <span className="text-[10px] text-brand-cream-text/50 uppercase tracking-widest leading-none font-sans mb-0.5">Total Price</span>
+          <span className="text-lg font-serif font-bold text-brand-cream-text leading-none">
             ₹{discountedPrice.toLocaleString('en-IN')}
           </span>
           {discount > 0 && (
@@ -577,12 +577,12 @@ export default function ProductDetails({ params }: { params: Promise<{ id: strin
             onClick={handleWishlistToggle}
             className={`h-11 w-11 rounded-full border flex items-center justify-center shrink-0 transition-all duration-150 touch-manipulation ${
               isSaved
-                ? 'bg-red-50 border-red-300 text-red-500'
-                : 'bg-white border-brand-cream-text/30 text-gray-500 active:bg-brand-cream-dark'
+                ? 'bg-red-500/10 border-red-500/30 text-red-400'
+                : 'bg-white/10 border-white/20 text-brand-cream-text active:bg-white/20'
             }`}
             aria-label={isSaved ? 'Remove from wishlist' : 'Add to wishlist'}
           >
-            <Heart size={18} fill={isSaved ? '#ef4444' : 'none'} />
+            <Heart size={18} fill={isSaved ? '#ef4444' : 'none'} className="transition-colors" />
           </button>
 
           {product.stock > 0 ? (

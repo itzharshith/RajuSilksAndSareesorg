@@ -137,20 +137,20 @@ function ShopContent() {
   };
 
   return (
-    <div className="bg-brand-cream min-h-screen py-6 sm:py-10 font-sans">
+    <div className="min-h-screen py-6 sm:py-10 font-sans">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Page title */}
         <div className="text-center mb-6 sm:mb-10">
           <span className="font-serif italic text-brand-cream-text text-xs sm:text-sm tracking-widest block uppercase mb-1">RAJU SILKS & SAREES</span>
-          <h1 className="font-serif font-bold text-2xl sm:text-4xl text-brand-blue-deep tracking-wider">
+          <h1 className="font-serif font-bold text-2xl sm:text-4xl text-brand-cream-text tracking-wider">
             The Weaves of Heritage
           </h1>
           <div className="h-0.5 w-20 sm:w-28 bg-brand-cream-text mx-auto mt-2"></div>
         </div>
 
         {/* Sticky Mobile Search, Sort & Filter Bar */}
-        <div className="sticky top-16 z-30 bg-brand-cream/95 backdrop-blur-md shadow-sm border-b border-brand-cream-text/10 -mx-4 px-4 py-3 mb-6 flex flex-col gap-2.5 lg:hidden">
+        <div className="sticky top-16 z-30 bg-black/70 backdrop-blur-md shadow-sm border-b border-white/10 -mx-4 px-4 py-3 mb-6 flex flex-col gap-2.5 lg:hidden">
           {/* Search bar */}
           <div className="relative w-full">
             <input
@@ -158,7 +158,7 @@ function ShopContent() {
               placeholder="Search silk sarees & handlooms..."
               value={searchQuery}
               onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }}
-              className="w-full text-xs bg-white border border-brand-cream-text/20 rounded-xl py-2.5 pl-4 pr-10 focus:outline-none focus:border-brand-gold text-gray-800 shadow-sm"
+              className="w-full text-xs bg-white/15 border border-white/20 rounded-xl py-2.5 pl-4 pr-10 focus:outline-none focus:border-brand-gold text-white placeholder:text-white/50 shadow-sm"
             />
             {searchQuery && (
               <button 
@@ -174,7 +174,7 @@ function ShopContent() {
           <div className="flex items-center gap-3">
             <button
               onClick={() => setMobileFiltersOpen(true)}
-              className="flex-1 bg-white hover:bg-brand-cream-text/10 text-brand-blue-deep text-xs font-bold py-2.5 px-4 rounded-xl border border-brand-cream-text/20 flex items-center justify-center gap-2 shadow-sm active:scale-95 transition-all"
+              className="flex-1 bg-white/15 hover:bg-white/20 text-white text-xs font-bold py-2.5 px-4 rounded-xl border border-white/20 flex items-center justify-center gap-2 shadow-sm active:scale-95 transition-all"
             >
               <SlidersHorizontal size={14} className="text-brand-gold" />
               <span>Filters</span>
@@ -187,7 +187,7 @@ function ShopContent() {
               <select
                 value={sortOption}
                 onChange={(e) => { setSortOption(e.target.value); setCurrentPage(1); }}
-                className="w-full text-xs bg-white border border-brand-cream-text/20 rounded-xl py-2.5 px-4 focus:outline-none focus:border-brand-gold text-brand-blue-deep font-bold appearance-none shadow-sm text-center"
+                className="w-full text-xs bg-white/15 border border-white/20 rounded-xl py-2.5 px-4 focus:outline-none focus:border-brand-gold text-white font-bold appearance-none shadow-sm text-center"
               >
                 <option value="newest">Sort: New</option>
                 <option value="priceAsc">Price: Low-High</option>
@@ -203,8 +203,8 @@ function ShopContent() {
           </div>
 
           <div className="text-center mt-1">
-            <span className="text-[10px] text-gray-500 font-sans">
-              Showing <span className="font-semibold text-brand-blue-deep">{products.length}</span> of <span className="font-semibold text-brand-blue-deep">{totalProducts}</span> weavers creations
+            <span className="text-[10px] text-white/60 font-sans">
+              Showing <span className="font-semibold text-white">{products.length}</span> of <span className="font-semibold text-white">{totalProducts}</span> weavers creations
             </span>
           </div>
         </div>
@@ -222,9 +222,9 @@ function ShopContent() {
 
           {/* Left Column: Filters Panel - Bottom Slide-up Drawer on Mobile, Sidebar on Desktop */}
           <div className={`
-            bg-white p-6 space-y-6 transition-transform duration-300 ease-in-out z-50
-            fixed bottom-0 left-0 right-0 rounded-t-3xl border-t border-brand-cream-text/20 max-h-[85vh] overflow-y-auto shadow-[0_-10px_40px_rgba(7,17,30,0.15)]
-            lg:static lg:w-auto lg:translate-y-0 lg:max-h-none lg:rounded-xl lg:border lg:border-brand-cream-text/15 lg:shadow-luxury lg:block
+            glass-panel p-6 space-y-6 transition-transform duration-300 ease-in-out z-50
+            fixed bottom-0 left-0 right-0 rounded-t-3xl border-t border-white/20 max-h-[85vh] overflow-y-auto shadow-[0_-10px_40px_rgba(0,0,0,0.4)]
+            lg:static lg:w-auto lg:translate-y-0 lg:max-h-none lg:rounded-xl lg:shadow-luxury lg:block
             ${mobileFiltersOpen ? 'translate-y-0' : 'translate-y-full lg:translate-y-0'}
           `}>
             {/* Drawer handle bar for touch drag indicator */}
@@ -347,7 +347,7 @@ function ShopContent() {
           <div className="lg:col-span-3 space-y-6">
             
             {/* Desktop Toolbar (Hidden on Mobile) */}
-            <div className="hidden lg:flex bg-white rounded-xl border border-brand-cream-text/15 p-4 shadow-luxury items-center justify-between gap-4">
+            <div className="hidden lg:flex glass-panel rounded-xl p-4 shadow-luxury items-center justify-between gap-4">
               <div className="flex items-center gap-4">
                 <span className="text-xs text-gray-500 font-sans">
                   Showing <span className="font-semibold text-brand-blue-deep">{products.length}</span> of <span className="font-semibold text-brand-blue-deep">{totalProducts}</span> weavers creations
@@ -376,7 +376,7 @@ function ShopContent() {
                 <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-brand-blue"></div>
               </div>
             ) : products.length === 0 ? (
-              <div className="bg-white border border-brand-cream-text/15 rounded-xl p-16 text-center shadow-luxury">
+              <div className="glass-panel rounded-xl p-16 text-center shadow-luxury">
                 <p className="font-serif italic text-brand-blue-deep text-lg mb-2">No masterworks found matching your filter selections.</p>
                 <p className="text-xs text-gray-500 mb-6">Try resetting the collection filters or searching for keywords.</p>
                 <button
@@ -400,7 +400,7 @@ function ShopContent() {
                     <button
                       onClick={() => handlePageChange(currentPage - 1)}
                       disabled={currentPage === 1}
-                      className="p-2 border border-brand-cream-text/20 rounded-lg hover:border-brand-cream-text disabled:opacity-40 disabled:cursor-not-allowed bg-white text-brand-blue transition-colors h-10 w-10 flex items-center justify-center"
+                      className="p-2 border border-white/20 rounded-lg hover:border-white/40 disabled:opacity-40 disabled:cursor-not-allowed glass-card text-brand-blue transition-colors h-10 w-10 flex items-center justify-center"
                     >
                       <ChevronLeft size={16} />
                     </button>
@@ -411,7 +411,7 @@ function ShopContent() {
                         className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold border transition-all duration-150 h-10 min-w-10 flex items-center justify-center ${
                           currentPage === i + 1
                             ? 'bg-brand-blue border-brand-cream-text text-white shadow-md'
-                            : 'bg-white border-brand-cream-text/15 text-gray-600 hover:border-brand-cream-text'
+                            : 'glass-card border-white/20 text-gray-600 hover:border-white/40'
                         }`}
                       >
                         {i + 1}
@@ -420,7 +420,7 @@ function ShopContent() {
                     <button
                       onClick={() => handlePageChange(currentPage + 1)}
                       disabled={currentPage === totalPages}
-                      className="p-2 border border-brand-cream-text/20 rounded-lg hover:border-brand-cream-text disabled:opacity-40 disabled:cursor-not-allowed bg-white text-brand-blue transition-colors h-10 w-10 flex items-center justify-center"
+                      className="p-2 border border-white/20 rounded-lg hover:border-white/40 disabled:opacity-40 disabled:cursor-not-allowed glass-card text-brand-blue transition-colors h-10 w-10 flex items-center justify-center"
                     >
                       <ChevronRight size={16} />
                     </button>
@@ -441,7 +441,7 @@ function ShopContent() {
 export default function Shop() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-brand-cream flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-brand-blue"></div>
       </div>
     }>

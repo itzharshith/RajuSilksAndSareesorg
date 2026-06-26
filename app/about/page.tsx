@@ -4,11 +4,11 @@ export default function AboutPage() {
   return (
     <div className="max-w-4xl mx-auto px-4 py-16 animate-fade-in font-sans leading-relaxed text-gray-700">
       <div className="text-center mb-12">
-        <h1 className="font-serif font-bold text-4xl text-brand-blue tracking-wide mb-2 uppercase">About Us</h1>
+        <h1 className="font-serif font-bold text-4xl text-brand-cream-text tracking-wide mb-2 uppercase">About Us</h1>
         <div className="h-0.5 w-24 bg-brand-cream-text mx-auto mb-6"></div>
       </div>
 
-      <div className="space-y-8 bg-white border border-gray-200 p-8 md:p-12 rounded-xl shadow-luxury">
+      <div className="space-y-8 glass-panel p-8 md:p-12 rounded-xl shadow-luxury">
         <section className="space-y-4">
           <h2 className="font-serif font-semibold text-2xl text-brand-blue uppercase">Our Heritage</h2>
           <p>

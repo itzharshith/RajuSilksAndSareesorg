@@ -68,21 +68,21 @@ export default function ProductCard({ product }: { product: Product }) {
   };
 
   return (
-    <div className="group bg-white rounded-lg border border-brand-cream-text/15 overflow-hidden shadow-luxury hover:shadow-2xl transition-all duration-300 flex flex-col h-full relative">
-      
+    <div className="group glass-card rounded-lg overflow-hidden shadow-luxury hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 flex flex-col h-full relative">
+
       {/* Product Image Section */}
-      <Link href={`/products/${product._id}`} className="block relative aspect-[4/5] bg-brand-cream overflow-hidden">
+      <Link href={`/products/${product._id}`} className="block relative aspect-[4/5] bg-brand-blue-deep/30 overflow-hidden">
         {/* Wishlist Heart */}
         <button
           onClick={handleWishlistToggle}
-          className="absolute top-3 right-3 z-10 bg-white/90 hover:bg-white text-brand-blue p-2 rounded-full shadow-md border border-brand-cream-text/20 transition-all duration-200"
+          className="absolute top-3 right-3 z-10 bg-white/85 hover:bg-white text-brand-blue p-2 rounded-full shadow-md border border-white/50 transition-all duration-200"
         >
           <Heart size={16} fill={isSaved ? '#721c24' : 'none'} className={isSaved ? 'scale-110' : ''} />
         </button>
 
         {/* Discount Badge */}
         {discount > 0 && (
-          <span className="absolute top-3 left-3 z-10 bg-brand-cream-text text-brand-blue-deep font-sans font-bold text-[10px] tracking-wider px-2.5 py-1 rounded shadow-sm">
+          <span className="absolute top-3 left-3 z-10 bg-brand-gold text-brand-blue-deep font-sans font-bold text-[10px] tracking-wider px-2.5 py-1 rounded shadow-sm">
             {discount}% OFF
           </span>
         )}
@@ -97,7 +97,7 @@ export default function ProductCard({ product }: { product: Product }) {
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-brand-blue-dark to-brand-blue text-brand-cream-text p-4 text-center">
-            <span className="font-serif italic text-sm">Raju Silks & Sarees</span>
+            <span className="font-serif italic text-sm">Raju Silks &amp; Sarees</span>
           </div>
         )}
 
@@ -144,7 +144,7 @@ export default function ProductCard({ product }: { product: Product }) {
         </div>
 
         {/* Price & Cart CTA */}
-        <div className="mt-4 pt-3 border-t border-brand-cream-dark flex items-center justify-between">
+        <div className="mt-4 pt-3 border-t border-brand-cream-text/20 flex items-center justify-between">
           <div className="flex flex-col">
             {discount > 0 ? (
               <>

@@ -43,10 +43,10 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`sticky top-0 z-50 transition-all duration-300 ${
+      className={`sticky top-0 z-50 transition-all duration-300 border-b ${
         scrolled
-          ? 'bg-brand-blue-deep/95 backdrop-blur-md shadow-[0_4px_30px_rgba(7,17,30,0.5)]'
-          : 'bg-brand-blue shadow-lg'
+          ? 'glass-nav-scrolled border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.5)]'
+          : 'glass-nav border-white/[0.06] shadow-[0_2px_20px_rgba(0,0,0,0.25)]'
       }`}
     >
       {/* Gold shimmer accent line at the very bottom of the bar */}
