@@ -36,9 +36,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             alt=""
             className="w-[min(70vw,600px)] h-auto object-contain select-none"
             style={{
-              opacity: 0.045,
-              filter: 'grayscale(30%) sepia(20%)',
-              mixBlendMode: 'multiply',
+              opacity: 0.12,
+              mixBlendMode: 'overlay',
             }}
             draggable={false}
           />
