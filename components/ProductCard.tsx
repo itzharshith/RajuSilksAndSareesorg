@@ -1,6 +1,7 @@
 'use client';
+import { useState } from 'react';
 import Link from 'next/link';
-import { Heart, ShoppingCart, Star } from 'lucide-react';
+import { Heart, ShoppingCart, Star, Check } from 'lucide-react';
 import { useCart } from './providers/CartProvider';
 
 interface Product {
@@ -20,6 +21,7 @@ interface Product {
 
 export default function ProductCard({ product }: { product: Product }) {
   const { addToCart, addToWishlist, removeFromWishlist, isInWishlist } = useCart();
+  const [isAdded, setIsAdded] = useState(false);
 
   const isSaved = isInWishlist(product._id);
   const discount = product.discount || 0;
@@ -45,7 +47,7 @@ export default function ProductCard({ product }: { product: Product }) {
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (product.stock > 0) {
+    if (product.stock > 0 && !isAdded) {
       addToCart({
         _id: product._id,
         name: product.name,
@@ -54,6 +56,10 @@ export default function ProductCard({ product }: { product: Product }) {
         stock: product.stock,
         discount: product.discount
       }, 1);
+      setIsAdded(true);
+      setTimeout(() => {
+        setIsAdded(false);
+      }, 2000);
     }
   };
 
@@ -165,10 +171,32 @@ export default function ProductCard({ product }: { product: Product }) {
           {product.stock > 0 ? (
             <button
               onClick={handleAddToCart}
-              className="bg-brand-blue hover:bg-brand-blue-deep text-white p-2 rounded-full border border-brand-cream-text/20 hover:border-brand-cream-text transition-all duration-200"
-              title="Add to Cart"
+              className={`
+                h-9 flex items-center justify-start rounded-full border transition-all duration-300 ease-in-out overflow-hidden group/btn relative cursor-pointer
+                ${isAdded 
+                  ? 'bg-emerald-600 border-emerald-500 text-white w-32 shadow-lg animate-pop' 
+                  : 'bg-brand-blue hover:bg-brand-blue-deep text-white w-9 hover:w-32 border-brand-cream-text/20 hover:border-brand-cream-text'
+                }
+              `}
+              title={isAdded ? "Added to Cart!" : "Add to Cart"}
             >
-              <ShoppingCart size={15} />
+              <div className="flex items-center space-x-1.5 pl-[10px] whitespace-nowrap transition-all duration-300">
+                {isAdded ? (
+                  <>
+                    <Check size={15} className="flex-shrink-0 animate-scale-up" />
+                    <span className="text-[10px] font-sans font-bold tracking-wider opacity-100 uppercase">
+                      Added!
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <ShoppingCart size={15} className="flex-shrink-0" />
+                    <span className="text-[10px] font-sans font-bold tracking-wider opacity-0 group-hover/btn:opacity-100 transition-opacity duration-200 delay-100 uppercase">
+                      Add to Cart
+                    </span>
+                  </>
+                )}
+              </div>
             </button>
           ) : (
             <span className="text-[10px] text-red-700 bg-red-50 border border-red-200 px-2 py-1 rounded font-semibold uppercase tracking-wider">

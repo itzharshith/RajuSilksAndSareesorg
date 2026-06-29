@@ -42,7 +42,7 @@ export default function PrivacyPage() {
         <section className="space-y-3">
           <h2 className="font-serif font-semibold text-lg text-brand-blue uppercase">3. Data Security & Payment Integrity</h2>
           <p>
-            We deploy secure technical protocols (SSL/TLS encryption) to secure data transmissions. All transactions are securely handled directly by our PCI-DSS compliant payment gateway partner (Razorpay). We do not collect, process, or store sensitive credit/debit card credentials on our servers.
+            We deploy secure technical protocols (SSL/TLS encryption) to secure data transmissions. All transactions are securely handled directly by our PCI-DSS compliant payment gateway partner (Cashfree). We do not collect, process, or store sensitive credit/debit card credentials on our servers.
           </p>
         </section>
 
@@ -56,7 +56,7 @@ export default function PrivacyPage() {
         <section className="space-y-3">
           <h2 className="font-serif font-semibold text-lg text-brand-blue uppercase">5. Sharing of Information</h2>
           <p>
-            We do not sell, lease, or rent customer databases to third parties. We share data only with necessary service partners (such as courier partners like BlueDart/DHL, and payment gateway Razorpay) strictly to complete your orders.
+            We do not sell, lease, or rent customer databases to third parties. We share data only with necessary service partners (such as courier partners like BlueDart/DHL, and payment gateway Cashfree) strictly to complete your orders.
           </p>
         </section>
 

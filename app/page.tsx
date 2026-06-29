@@ -261,7 +261,7 @@ export default function Home() {
               <ShieldCheck size={24} />
             </div>
             <div>
-              <h3 className="font-serif font-bold text-sm sm:text-base text-brand-blue-deep">Secure Razorpay Gateway</h3>
+              <h3 className="font-serif font-bold text-sm sm:text-base text-brand-blue-deep">Secure Cashfree Gateway</h3>
               <p className="text-[11px] sm:text-xs text-gray-500 mt-1 leading-relaxed">Enjoy smooth payments through secure tokenised mock systems. Rest easy knowing transactions are handled safely.</p>
             </div>
           </div>

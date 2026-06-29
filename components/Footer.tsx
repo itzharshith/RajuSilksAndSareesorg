@@ -107,7 +107,7 @@ export default function Footer() {
           <p>© {new Date().getFullYear()} Raju Silks &amp; Sarees. All Rights Reserved.</p>
           <p className="flex items-center space-x-1.5">
             <span>Secure payments powered by mock architecture</span>
-            <span className="text-brand-cream-text font-semibold">Razorpay-ready</span>
+            <span className="text-brand-cream-text font-semibold">Cashfree-ready</span>
           </p>
         </div>
       </div>

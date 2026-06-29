@@ -39,7 +39,7 @@ export default function TermsPage() {
         <section className="space-y-3">
           <h2 className="font-serif font-semibold text-lg text-brand-blue uppercase">4. Payments & Transactions</h2>
           <p>
-            All digital payments are processed through secure payment gateway partners (such as Razorpay). We do not store your complete card credentials or bank account details. You agree to pay all charges incurred by you or users of your account at the prices in effect when such charges are incurred.
+            All digital payments are processed through secure payment gateway partners (such as Cashfree). We do not store your complete card credentials or bank account details. You agree to pay all charges incurred by you or users of your account at the prices in effect when such charges are incurred.
           </p>
         </section>
 
